@@ -1,0 +1,21 @@
+{
+  "name"        : "ccore",
+  "description" : "",
+  "main"        : "index.js",
+  "authors"     :
+  [
+    "hasanprogrammer"
+  ],
+  "license"  : "ISC",
+  "homepage" : "",
+  "private"  : true,
+  "ignore"   :
+  [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/Components",
+    "test",
+    "tests"
+  ]
+}

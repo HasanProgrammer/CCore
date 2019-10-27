@@ -1,0 +1,8 @@
+{
+  "name"        : "ccore",
+  "version"     : "1.0.0",
+  "description" : "",
+  "main"        : "index.js",
+  "author"      : "hasanprogrammer",
+  "license"     : "ISC"
+}

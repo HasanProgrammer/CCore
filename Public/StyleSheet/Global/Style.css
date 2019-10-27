@@ -1,0 +1,219 @@
+@font-face
+{
+    src: url("../../Fonts/English/Roboto-Regular.ttf");
+    font-family: Roboto-Regular;
+}
+@font-face
+{
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 900;
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Black.eot');
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Black.eot?#iefix') format('embedded-opentype'),
+    url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum)_Black.woff2') format('woff2'),
+    url('../../Fonts/Persian/woff/IRANSansWeb(FaNum)_Black.woff') format('woff'),
+    url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum)_Black.ttf') format('truetype');
+}
+@font-face
+{
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: bold;
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Bold.eot');
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Bold.eot?#iefix') format('embedded-opentype'),
+    url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum)_Bold.woff2') format('woff2'),
+    url('../../Fonts/Persian/woff/IRANSansWeb(FaNum)_Bold.woff') format('woff'),
+    url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum)_Bold.ttf') format('truetype');
+}
+@font-face
+{
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 500;
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Medium.eot');
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Medium.eot?#iefix') format('embedded-opentype'),
+    url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum)_Medium.woff2') format('woff2'),
+    url('../../Fonts/Persian/woff/IRANSansWeb(FaNum)_Medium.woff') format('woff'),
+    url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum)_Medium.ttf') format('truetype');
+}
+@font-face
+{
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 300;
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Light.eot');
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_Light.eot?#iefix') format('embedded-opentype'),
+    url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum)_Light.woff2') format('woff2'),
+    url('../../Fonts/Persian/woff/IRANSansWeb(FaNum)_Light.woff') format('woff'),
+    url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum)_Light.ttf') format('truetype');
+}
+@font-face
+{
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 200;
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_UltraLight.eot');
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum)_UltraLight.eot?#iefix') format('embedded-opentype'),
+    url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum)_UltraLight.woff2') format('woff2'),
+    url('../../Fonts/Persian/woff/IRANSansWeb(FaNum)_UltraLight.woff') format('woff'),
+    url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum)_UltraLight.ttf') format('truetype');
+}
+@font-face
+{
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum).eot');
+    src: url('../../Fonts/Persian/eot/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),
+    url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum).woff2') format('woff2'),
+    url('../../Fonts/Persian/woff/IRANSansWeb(FaNum).woff') format('woff'),
+    url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum).ttf') format('truetype');
+}
+*
+{
+    padding: 0px;
+    margin: 0px;
+    font-family: IRANSans, Roboto-Regula;
+}
+body
+{
+    overflow-x: hidden;
+    background-color: #f8f8f8;
+}
+/*Pagination*/
+.Box_Pagination_Links
+{
+    width: auto;
+    display: inline-block;
+    position: relative;
+    float: left;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    margin: 0px auto;
+    height: 50px;
+    overflow: hidden;
+    background-color: white;
+    border: 8px solid white;
+    border-radius: 50px;
+    filter: drop-shadow(0px 3px 1px rgba(191,191,191,0.55));
+}
+.Link_First_Page
+{
+    width: 50px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+    background: url("../../Icons/PNG/Arrow/1996.1.png") no-repeat center;
+    background-size: 40px 40px;
+    opacity: 0.6;
+}
+.Link_Previous
+{
+    width: 50px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+    background: url("../../Icons/PNG/Arrow/1996.1.png") no-repeat center;
+    background-size: 25px 25px;
+    opacity: 0.6;
+}
+.Links
+{
+    width: 50px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+}
+.Link
+{
+    width: 50px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 0px;
+    display: inline-block;
+    background-color: #7be0ff;
+    border-radius: 50px;
+}
+.Text_Single_Link
+{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 0px;
+    font-size: 18px;
+    color: rgba(255,255,255, 1);
+    padding-top: 14px;
+    text-align: center;
+    cursor: default;
+}
+.TextLink
+{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 0px;
+    font-size: 18px;
+    color: rgba(181,181,181,0.88);
+    padding-top: 14px;
+    text-align: center;
+}
+.Link_Next
+{
+    width: 50px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+    background: url("../../Icons/PNG/Arrow/1996.2.png") no-repeat center;
+    background-size: 25px 25px;
+    opacity: 0.5;
+}
+.Link_Last_Page
+{
+    width: 50px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+    background: url("../../Icons/PNG/Arrow/1996.2.png") no-repeat center;
+    background-size: 40px 40px;
+    opacity: 0.5;
+}
+/*Exception*/
+#Box_Exception
+{
+    width: 1000px;
+    height: 400px;
+    overflow: hidden;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 20px;
+    filter: drop-shadow(0px 3px 1px rgba(191,191,191,0.55));
+}
+#Box_Exception #Header_Box_Exception
+{
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    position: relative;
+    margin: 0px;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 10px;
+    color: rgb(250,250,250);
+    background-color: lightskyblue;
+}

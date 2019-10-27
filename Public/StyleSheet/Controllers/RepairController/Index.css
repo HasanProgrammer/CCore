@@ -1,0 +1,25 @@
+#Box_Repair_Controller
+{
+    width: 1111px;
+    height: 300px;
+    overflow: hidden;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    margin: auto;
+    background-color: white;
+    border-radius: 40px;
+    border: 1px solid rgba(200,200,200,0.5);
+}
+#Content_Box_Repair_Controller
+{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 0px;
+    text-align: center;
+    padding-top: 125px;
+    font-size: 40px;
+    color: rgba(181,181,181,0.66);
+    cursor: default;
+}
