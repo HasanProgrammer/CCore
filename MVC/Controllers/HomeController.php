@@ -7,9 +7,14 @@
 namespace MVC\Controllers
 {
 
+    use Kernel\Annotation;
     use Kernel\Http\Request;
     use Kernel\Http\Controller;
+    use Kernel\Annotations\Route;
 
+    /**
+     * @Area()
+     */
     final class HomeController extends Controller
     {
         /**
@@ -20,12 +25,13 @@ namespace MVC\Controllers
             parent::__construct();
         }
         /**
-         * @Method[Validate]
          * @param  Request $request
          * @return void
          */
         public final function Index(Request $request)
         {
+            //(new Annotation(new Route()))->Translate();
+
             $this->view->render('HomeController.Index');
         }
     }

@@ -92,10 +92,11 @@ namespace Kernel
                     $authSignUp->onSignUpSuccess("شما با این اطلاعات در سیستم ثبت نام شدید", $pecod->select()->where(['id' => $save])->pull()->toArray());
                 }
             });
+
             return $this;
         }
 
-        public final function afterSignUp(AuthSignUp $authSignUp)
+        public final function afterSignUp(AuthSignUp $authSignUp) : self
         {
             return $this;
         }
