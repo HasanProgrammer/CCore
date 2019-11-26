@@ -7,10 +7,8 @@
 namespace MVC\Controllers
 {
 
-    use Kernel\Annotation;
     use Kernel\Http\Request;
     use Kernel\Http\Controller;
-    use Kernel\Annotations\Route;
 
     /**
      * @Area()
@@ -30,8 +28,6 @@ namespace MVC\Controllers
          */
         public final function Index(Request $request)
         {
-            //(new Annotation(new Route()))->Translate();
-
             $this->view->render('HomeController.Index');
         }
     }

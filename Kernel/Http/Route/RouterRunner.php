@@ -27,11 +27,11 @@ namespace Kernel\Http\Route
             PostPath::run();
             PatchPath::run();
             DeletePath::run();
-            include_once '../Routes/DERoute.php';
-            include_once '../Routes/GERoute.php';
-            include_once '../Routes/PARoute.php';
-            include_once '../Routes/PORoute.php';
-            include_once '../Routes/PURoute.php';
+            include_once 'Routes/DERoute.php';
+            include_once 'Routes/GERoute.php';
+            include_once 'Routes/PARoute.php';
+            include_once 'Routes/PORoute.php';
+            include_once 'Routes/PURoute.php';
             HttpRequest::exe();
         }
     }

@@ -123,7 +123,7 @@ namespace Kernel
             if(isset($console))
             {
                 echo "\nThe server was successfully built: <http://127.0.0.1:$console>\n\n";
-                shell_exec("php -S 127.0.0.1:".$console." -t Public");
+                shell_exec("php -S 127.0.0.1:".$console);
             }
         }
         /**

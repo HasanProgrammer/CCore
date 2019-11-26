@@ -33,7 +33,7 @@ if(!function_exists('getCaptchaFields'))
      */
     function getCaptchaFields() : string
     {
-        return "<img src='".root()."UI/Images/PHP/Captcha/1996.php'>";
+        return "<img src=''/>";
     }
 }
 

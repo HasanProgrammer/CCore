@@ -33,13 +33,13 @@ namespace Kernel\MVC
             $path = str_replace('.', '/', $path);
             try
             {
-                if(file_exists('../MVC/Views/Layout/'.$path.'.php'))
+                if(file_exists('MVC/Views/Layout/'.$path.'.php'))
                     $this->layout = $path;
                 else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
             }
             catch (ViewException $viewException)
             {
-                dd( $viewException->getMessage() );
+                d( $viewException->getMessage() );
             }
         }
         /**
@@ -53,16 +53,16 @@ namespace Kernel\MVC
             $path = str_replace('.', '/', $path);
             try
             {
-                if(file_exists('../MVC/Views/Controllers/'.$path.'.php'))
+                if(file_exists('MVC/Views/Controllers/'.$path.'.php'))
                 {
-                    $this->rendition('../MVC/Views/Controllers/'.$path.'.php'    , $data);
-                    $this->rendition('../MVC/Views/Layout/'.$this->layout.'.php' , $data);
+                    $this->rendition('MVC/Views/Controllers/'.$path.'.php'    , $data);
+                    $this->rendition('MVC/Views/Layout/'.$this->layout.'.php' , $data);
                     return $this;
                 } else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
             }
             catch (ViewException $viewException)
             {
-                dd( $viewException->getMessage() );
+                d( $viewException->getMessage() );
             }
         }
         /**
@@ -76,13 +76,13 @@ namespace Kernel\MVC
             $path = str_replace('.', '/', $path);
             try
             {
-                if(file_exists('../MVC/Views/AJAX/'.$path.'.php'))
-                    $this->rendition('../MVC/Views/AJAX/'.$path.'.php', null);
+                if(file_exists('MVC/Views/AJAX/'.$path.'.php'))
+                    $this->rendition('MVC/Views/AJAX/'.$path.'.php', null);
                 else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
             }
             catch (ViewException $viewException)
             {
-                dd( $viewException->getMessage() );
+                d( $viewException->getMessage() );
             }
         }
         /**
@@ -96,15 +96,15 @@ namespace Kernel\MVC
             $path = str_replace('.', '/', $path);
             try
             {
-                if(file_exists('../MVC/Views/Partials/'.$path.'.php'))
+                if(file_exists('MVC/Views/Partials/'.$path.'.php'))
                 {
-                    $this->rendition('../MVC/Views/Partials/'.$path.'.php', $data);
+                    $this->rendition('MVC/Views/Partials/'.$path.'.php', $data);
                 }
                 else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
             }
             catch (ViewException $viewException)
             {
-                dd( $viewException->getMessage() );
+                d( $viewException->getMessage() );
             }
         }
         /**
@@ -158,7 +158,7 @@ namespace Kernel\MVC
             }
             catch (ViewException $viewException)
             {
-                dd( $viewException->getMessage() );
+                d( $viewException->getMessage() );
             }
         }
         /**

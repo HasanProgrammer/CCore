@@ -134,7 +134,7 @@ namespace Kernel\Http\Route
             }
             catch (RouteException $routeException)
             {
-                dd( $routeException->getMessage() );
+                d( $routeException->getMessage() );
             }
         }
         /**
@@ -217,8 +217,8 @@ namespace Kernel\Http\Route
                         $PartsCallable = explode('.', $this->callable);
                         if(count($PartsCallable) == 2)
                         {
-                            if(file_exists('../MVC/Controllers/'.$PartsCallable[0].'.php'))
-                                include_once '../MVC/Controllers/'.$PartsCallable[0].'.php';
+                            if(file_exists('MVC/Controllers/'.$PartsCallable[0].'.php'))
+                                include_once 'MVC/Controllers/'.$PartsCallable[0].'.php';
                             else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
                             $reflection = new \ReflectionClass('\\MVC\\Controllers\\'.$PartsCallable[0]);
                             if(method_exists($reflection->newInstance(), $PartsCallable[1]))
@@ -233,8 +233,8 @@ namespace Kernel\Http\Route
                 }
                 else
                 {
-                    if(file_exists('../MVC/Controllers/'.$this->controller.'.php'))
-                        include_once '../MVC/Controllers/'.$this->controller.'.php';
+                    if(file_exists('MVC/Controllers/'.$this->controller.'.php'))
+                        include_once 'MVC/Controllers/'.$this->controller.'.php';
                     else
                         throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
                     $reflection = new \ReflectionClass('\\MVC\\Controllers\\'.$this->controller);
@@ -246,7 +246,7 @@ namespace Kernel\Http\Route
             }
             catch (Exception $exception)
             {
-                dd( $exception->getMessage() );
+                d( $exception->getMessage() );
             }
         }
         /**

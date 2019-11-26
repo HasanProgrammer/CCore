@@ -47,11 +47,11 @@ namespace Kernel\Http
             }
             catch (MiddlewareException $middlewareException)
             {
-                dd( $middlewareException->getMessage() );
+                d( $middlewareException->getMessage() );
             }
             catch (\ReflectionException $e)
             {
-                dd( $e->getMessage() );
+                d( $e->getMessage() );
             }
         }
     }
