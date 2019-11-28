@@ -14,7 +14,6 @@ return
         'Error'         => "ErrorController.Index"        ,
         'Sign_In'       => "SignInController.Index"       ,
         'Sign_Up'       => "SignUpController.Index"       ,
-        'Test'          => "TestController.Index"         ,
         'User'          => "UserController.Index"         ,
         'Admin'         => "AdminController.Index"        ,
         'Repair'        => "RepairController.Index"       ,

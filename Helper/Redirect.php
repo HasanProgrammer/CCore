@@ -10,7 +10,6 @@ if(!function_exists('redirect'))
      */
     function redirect(string $path)
     {
-        //$path = str_replace('.', '/', $path);
         header("Location: ".root().$path);
         exit();
     }

@@ -59,7 +59,7 @@ if(!function_exists('bankPortResponse'))
      */
     function getBankPortResponseUrl() : string
     {
-        return "http://0f5b7245.ngrok.io/EasyPHP.V1/Cart/Response?Amount=800";
+        return "";
     }
 }
 

@@ -42,8 +42,10 @@ namespace Libs\Finals
             }
             catch (SessionException $sessionException)
             {
-                dd( $sessionException->getMessage() );
+                d( $sessionException->getMessage() );
             }
+
+            return false;
         }
         /**
          * @param  string | array $key
@@ -93,8 +95,10 @@ namespace Libs\Finals
             }
             catch (SessionException $sessionException)
             {
-                dd( $sessionException->getMessage() );
+                d( $sessionException->getMessage() );
             }
+
+            return false;
         }
         /**
          * @param  string | array $key
@@ -123,8 +127,10 @@ namespace Libs\Finals
             }
             catch (SessionException $sessionException)
             {
-                dd( $sessionException->getMessage() );
+                d( $sessionException->getMessage() );
             }
+
+            return false;
         }
     }
 }

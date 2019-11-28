@@ -20,14 +20,17 @@ namespace Kernel\Http\BankPort
         public final function __construct(int $amount)
         {
             $client = new \SoapClient(config('BankPort')['Zarinpal']['Url'], ['encoding' => 'UTF-8']);
-            $result = $client->PaymentRequest([
-                'MerchantID'  => config('BankPort')['Zarinpal']['MerchantID']  ,
-                'Amount'      => $amount                                       ,
-                'Description' => config('BankPort')['Zarinpal']['Description'] ,
-                'Email'       => config('BankPort')['Zarinpal']['Email']       ,
-                'Mobile'      => config('BankPort')['Zarinpal']['Mobile']      ,
-                'CallbackURL' => config('BankPort')['Zarinpal']['CallbackURL']
-            ]);
+            $result = $client->PaymentRequest
+            (
+                [
+                    'MerchantID'  => config('BankPort')['Zarinpal']['MerchantID']  ,
+                    'Amount'      => $amount                                       ,
+                    'Description' => config('BankPort')['Zarinpal']['Description'] ,
+                    'Email'       => config('BankPort')['Zarinpal']['Email']       ,
+                    'Mobile'      => config('BankPort')['Zarinpal']['Mobile']      ,
+                    'CallbackURL' => config('BankPort')['Zarinpal']['CallbackURL']
+                ]
+            );
             $this->status    = $result->Status;
             $this->authority = $result->Authority;
         }

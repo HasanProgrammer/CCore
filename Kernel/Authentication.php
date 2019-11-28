@@ -84,12 +84,12 @@ namespace Kernel
             {
                 if(count($pecod->select()->where($request)->pull()->toArray()) == 1)
                 {
-                    $authSignUp->onSignUpError("کاربری با این اطلاعات در سیستم وجود دارد");
+                    $authSignUp->onSignUpError( config("Message")["Auth"]["Error-SignIn"] );
                 }
                 else
                 {
                     $save = $pecod->push($request)->save()->getLastRecordId();
-                    $authSignUp->onSignUpSuccess("شما با این اطلاعات در سیستم ثبت نام شدید", $pecod->select()->where(['id' => $save])->pull()->toArray());
+                    $authSignUp->onSignUpSuccess( config("Message")["Auth"]["Success-SignUp"] , $pecod->select()->where(['id' => $save])->pull()->toArray());
                 }
             });
 

@@ -62,6 +62,10 @@ namespace Kernel
                         $this->handleCompressFile();
                     break;
                     case 9:
+                        break;
+                    case 10:
+                        break;
+                    case 11:
                         echo "Goodby!\n\n";
                         exit();
                     break;

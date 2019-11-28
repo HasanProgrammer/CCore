@@ -22,11 +22,14 @@ namespace Kernel\Http\BankPort
             if( $request->get()->Status == 'OK' )
             {
                 $client = new \SoapClient(config('BankPort')['Zarinpal']['Url'], ['encoding' => 'UTF-8']);
-                $result = $client->PaymentVerification([
-                    'MerchantID' => config('BankPort')['Zarinpal']['MerchantID'] ,
-                    'Authority'  => $request->get()->Authority                   ,
-                    'Amount'     => $request->get()->Amount                      ,
-                ]);
+                $result = $client->PaymentVerification
+                (
+                    [
+                        'MerchantID' => config('BankPort')['Zarinpal']['MerchantID'] ,
+                        'Authority'  => $request->get()->Authority                   ,
+                        'Amount'     => $request->get()->Amount                      ,
+                    ]
+                );
                 $this->refId  = $result->RefID;
                 $this->status = $result->Status;
             }

@@ -109,7 +109,7 @@ namespace Kernel\Http\Route
             }
             catch (RouteException $routeException)
             {
-                dd( $routeException->getMessage() );
+                d( $routeException->getMessage() );
             }
         }
         /**

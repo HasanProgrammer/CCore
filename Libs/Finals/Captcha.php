@@ -61,7 +61,7 @@ namespace Libs\Finals
             header('Content-Type: image/jpeg');
             $image          = imagecreate($this->imageWidth, $this->imageHeight);
             imagecolorallocate($image, 255, 255, 255);
-            $imageTextColor = imagecolorallocate($image, 255, 255, 255);
+            //$imageTextColor = imagecolorallocate($image, 255, 255, 255);
             //imagettftext($image, $this->imageFontSize, 15, 30, $imageTextColor, 'Roboto-Regular.ttf', $this->stringImageCaptcha);
             imagejpeg($image);
         }
