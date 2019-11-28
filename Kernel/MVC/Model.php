@@ -25,21 +25,21 @@ namespace Kernel\MVC
                 {
                     foreach($dataModels as $dataModel)
                     {
-                        if(file_exists('../MVC/Models/DataModels/'.$dataModel.'.php'))
-                            include_once '../MVC/Models/DataModels/'.$dataModel.'.php';
+                        if(file_exists('MVC/Models/DataModels/'.$dataModel.'.php'))
+                            include_once 'MVC/Models/DataModels/'.$dataModel.'.php';
                         else
                             throw new ModelException('File: '.__FILE__.' --Line: '.__LINE__);
                     }
                 }
-                if(file_exists('../MVC/Models/Logic/'.$logic.'.php'))
-                    include_once '../MVC/Models/Logic/'.$logic.'.php';
+                if(file_exists('MVC/Models/Logic/'.$logic.'.php'))
+                    include_once 'MVC/Models/Logic/'.$logic.'.php';
                 else
                     throw new ModelException('File: '.__FILE__.' --Line: '.__LINE__);
                 return (new \ReflectionClass('\\MVC\\Models\\Logic\\'.$logic))->newInstance();
             }
             catch (ModelException | ReflectionException $exception)
             {
-                dd( $exception->getMessage() );
+                d( $exception->getMessage() );
             }
         }
     }

@@ -166,12 +166,12 @@ namespace Kernel
                 {
                     if(file_put_contents('MVC/Controllers/'.$console.'.php', str_replace('TemplateController', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateController.php'))))
                     {
-                        if(!is_dir('MVC/Views/Controllers/'     .$console)) mkdir('MVC/Views/Controllers/'     .$console);
-                        if(!is_dir('UI/JavaScript/Controllers/' .$console)) mkdir('UI/JavaScript/Controllers/' .$console);
-                        if(!is_dir('UI/StyleSheet/Controllers/' .$console)) mkdir('UI/StyleSheet/Controllers/' .$console);
-                        file_put_contents('MVC/Views/Controllers/'     .$console.'/Index.php' , str_replace("DefaultController", $console, file_get_contents('Kernel/Core/Templates/Console/Client/TemplateView.php')));
-                        file_put_contents('UI/JavaScript/Controllers/' .$console.'/Index.js'  , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateJavaScript.js'));
-                        file_put_contents('UI/StyleSheet/Controllers/' .$console.'/Index.css' , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateStyleSheet.css'));
+                        if(!is_dir('MVC/Views/Controllers/'  .$console)) mkdir('MVC/Views/Controllers/'  .$console);
+                        if(!is_dir('JavaScript/Controllers/' .$console)) mkdir('JavaScript/Controllers/' .$console);
+                        if(!is_dir('StyleSheet/Controllers/' .$console)) mkdir('StyleSheet/Controllers/' .$console);
+                        file_put_contents('MVC/Views/Controllers/'  .$console.'/Index.php' , str_replace("DefaultController", $console, file_get_contents('Kernel/Core/Templates/Console/Client/TemplateView.php')));
+                        file_put_contents('JavaScript/Controllers/' .$console.'/Index.js'  , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateJavaScript.js'));
+                        file_put_contents('StyleSheet/Controllers/' .$console.'/Index.css' , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateStyleSheet.css'));
                         echo "\nThe controller ".$console." was successfully built in path << MVC->Controllers >>\n";
                         break;
                     }
@@ -193,9 +193,9 @@ namespace Kernel
                 if(!file_exists('MVC/Models/Logic/'.$console.'.php') && !file_exists('MVC/Models/DataModels/'.$console.'.php'))
                 {
                     if(
-                        file_put_contents('MVC/Models/Logic/'.$console.'.php', str_replace('TemplateLogic', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateLogic.php')))
+                        file_put_contents('MVC/Models/Logic/'      .$console.'.php', str_replace('TemplateLogic'     , $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateLogic.php')))
                         &&
-                        file_put_contents('MVC/Models/DataModels/'.$console.'.php', str_replace('TemplateDataModels', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDataModels.php')))
+                        file_put_contents('MVC/Models/DataModels/' .$console.'.php', str_replace('TemplateDataModels', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDataModels.php')))
                       )
                     {
                         echo "\nThe model ".$console." was successfully built in path << MVC->Models >>\n";
