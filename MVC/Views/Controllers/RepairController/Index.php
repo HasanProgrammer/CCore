@@ -4,7 +4,7 @@
 
 @Start('StyleSheet')
 
-    <link rel="stylesheet" href="StyleSheet/Controllers/RepairController/Index.css">
+    <link rel="stylesheet" href="WWW/StyleSheet/Controllers/RepairController/Index.css">
 
 @Close('StyleSheet')
 
@@ -18,6 +18,6 @@
 
 @Start('JavaScript')
 
-    <script type="text/javascript" src="JavaScript/Controllers/RepairController/Index.js"></script>
+    <script type="text/javascript" src="WWW/JavaScript/Controllers/RepairController/Index.js"></script>
 
 @Close('JavaScript')

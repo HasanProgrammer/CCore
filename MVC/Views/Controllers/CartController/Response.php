@@ -4,7 +4,7 @@
 
 @Start('StyleSheet')
 
-    <link rel="stylesheet" href="StyleSheet/Controllers/CartController/Response.css">
+    <link rel="stylesheet" href="WWW/StyleSheet/Controllers/CartController/Response.css">
 
 @Close('StyleSheet')
 
@@ -18,6 +18,6 @@
 
 @Start('JavaScript')
 
-    <script type="text/javascript" src="JavaScript/Controllers/CartController/Response.js"></script>
+    <script type="text/javascript" src="WWW/JavaScript/Controllers/CartController/Response.js"></script>
 
 @Close('JavaScript')

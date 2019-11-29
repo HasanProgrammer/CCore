@@ -4,7 +4,7 @@
 
 @Start('StyleSheet')
 
-    <link rel="stylesheet" href="StyleSheet/Controllers/SignInController/Index.css">
+    <link rel="stylesheet" href="WWW/StyleSheet/Controllers/SignInController/Index.css">
 
 @Close('StyleSheet')
 
@@ -48,6 +48,6 @@
 
 @Start('JavaScript')
 
-    <script type="text/javascript" src="JavaScript/Controllers/SignInController/Index.js"></script>
+    <script type="text/javascript" src="WWW/JavaScript/Controllers/SignInController/Index.js"></script>
 
 @Close('JavaScript')

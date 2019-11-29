@@ -275,6 +275,18 @@ namespace Kernel\Http\Route
                         else
                             throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
                     }
+                    else
+                    {
+                        if(file_exists('MVC/Controllers/'.$this->controller.'.php'))
+                            include_once 'MVC/Controllers/'.$this->controller.'.php';
+                        else
+                            throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                        $reflection = new \ReflectionClass('MVC\\Controllers\\'.$this->controller);
+                        if(method_exists($reflection->newInstance(), $this->method))
+                            call_user_func_array([$reflection->newInstance(), $this->method], $this->parameter);
+                        else
+                            throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                    }
                 }
             }
             catch (Exception $exception)

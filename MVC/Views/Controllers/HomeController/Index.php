@@ -4,7 +4,7 @@
 
 @Start('StyleSheet')
 
-    <link rel="stylesheet" href="[@root()@]StyleSheet/Controllers/HomeController/Index.css">
+    <link rel="stylesheet" href="[@root()@]WWW/StyleSheet/Controllers/HomeController/Index.css">
 
 @Close('StyleSheet')
 
@@ -18,6 +18,6 @@
 
 @Start('JavaScript')
 
-    <script type="text/javascript" src="[@root()@]JavaScript/Controllers/HomeController/Index.js"></script>
+    <script type="text/javascript" src="[@root()@]WWW/JavaScript/Controllers/HomeController/Index.js"></script>
 
 @Close('JavaScript')

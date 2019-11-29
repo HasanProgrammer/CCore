@@ -4,7 +4,7 @@
 
 @Start('StyleSheet')
 
-    <link rel="stylesheet" href="StyleSheet/Controllers/UserController/Index.css">
+    <link rel="stylesheet" href="WWW/StyleSheet/Controllers/UserController/Index.css">
 
 @Close('StyleSheet')
 
@@ -18,6 +18,6 @@
 
 @Start('JavaScript')
 
-    <script type="text/javascript" src="JavaScript/Controllers/UserController/Index.js"></script>
+    <script type="text/javascript" src="WWW/JavaScript/Controllers/UserController/Index.js"></script>
 
 @Close('JavaScript')

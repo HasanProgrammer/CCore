@@ -4,7 +4,7 @@
 
 @Start('StyleSheet')
 
-    <link rel="stylesheet" href="StyleSheet/Controllers/CartController/Index.css">
+    <link rel="stylesheet" href="WWW/StyleSheet/Controllers/CartController/Index.css">
 
 @Close('StyleSheet')
 
@@ -18,6 +18,6 @@
 
 @Start('JavaScript')
 
-    <script type="text/javascript" src="JavaScript/Controllers/CartController/Index.js"></script>
+    <script type="text/javascript" src="WWW/JavaScript/Controllers/CartController/Index.js"></script>
 
 @Close('JavaScript')
