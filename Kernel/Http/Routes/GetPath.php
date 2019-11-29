@@ -19,7 +19,6 @@ namespace Kernel\Http\Routes
             HttpRequest::get("Error"         , config('Route')['Get']['Error']);
             HttpRequest::get("SignUp"        , config('Route')['Get']['Sign_Up']);
             HttpRequest::get("SignIn"        , config('Route')['Get']['Sign_In']);
-            HttpRequest::get("Test"          , config('Route')['Get']['Test']);
             HttpRequest::get("User"          , config('Route')['Get']['User']);
             HttpRequest::get("Admin"         , config('Route')['Get']['Admin']);
             HttpRequest::get("Cart"          , config('Route')['Get']['Cart']);

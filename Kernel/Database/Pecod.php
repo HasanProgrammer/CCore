@@ -109,7 +109,7 @@ namespace Kernel\Database
          */
         public final function selectBySelect() : Pecod
         {
-
+            return $this;
         }
         /**
          * @param  mixed $condition
@@ -249,7 +249,7 @@ namespace Kernel\Database
          */
         public final function innerJoinBySelect() : Pecod
         {
-
+            return $this;
         }
         /**
          * @param  string $table
@@ -269,7 +269,7 @@ namespace Kernel\Database
          */
         public final function leftJoinBySelect() : Pecod
         {
-
+            return $this;
         }
         /**
          * @param  string $table
@@ -289,7 +289,7 @@ namespace Kernel\Database
          */
         public final function rightJoinBySelect() : Pecod
         {
-
+            return $this;
         }
         /**
          * @param  string $table
@@ -309,7 +309,7 @@ namespace Kernel\Database
          */
         public final function fullJoinBySelect() : Pecod
         {
-
+            return $this;
         }
         /**
          * @param  mixed $column

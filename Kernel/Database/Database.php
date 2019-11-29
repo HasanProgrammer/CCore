@@ -21,7 +21,8 @@ namespace Kernel\Database
         {
             try
             {
-                self::$connectionPDO = new PDO(
+                self::$connectionPDO = new PDO
+                (
                     config('Database')['Mysql']['Driver'].":host="  .
                     config('Database')['Mysql']['Host']  .";dbname=".
                     config('Database')['Mysql']['Database'] ,
@@ -31,7 +32,7 @@ namespace Kernel\Database
             }
             catch (PDOException $e)
             {
-                dd( $e->getMessage() );
+                d( $e->getMessage() );
             }
         }
         /**

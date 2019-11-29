@@ -18,6 +18,7 @@ namespace Kernel\Http\Route
 
     final class Route
     {
+        private $area;
         private $route;
         private $method;
         private $callable;
@@ -58,7 +59,7 @@ namespace Kernel\Http\Route
          * @param  string $controller
          * @return Route
          */
-        public final function controller(string $controller) : Route
+        public final function controller(string $controller) : self
         {
             $this->controller = $controller."Controller";
             return $this;
@@ -67,7 +68,7 @@ namespace Kernel\Http\Route
          * @param  string $method
          * @return Route
          */
-        public final function action(string $method) : Route
+        public final function action(string $method) : self
         {
             $this->method = $method;
             return $this;
@@ -77,16 +78,25 @@ namespace Kernel\Http\Route
          * @param  string $regex
          * @return Route
          */
-        public final function filter(string $parameter, string $regex) : Route
+        public final function filter(string $parameter, string $regex) : self
         {
             $this->parameterRegex[$parameter] = str_replace('(', '', str_replace(')', '', $regex));
+            return $this;
+        }
+        /**
+         * @param  string $area
+         * @return Route
+         */
+        public final function area(string $area) : self
+        {
+            $this->area = $area;
             return $this;
         }
         /**
          * @param  string $middleware
          * @return Route
          */
-        public final function middleware(string $middleware) : Route
+        public final function middleware(string $middleware) : self
         {
             $this->middlewareRoute[$this->route][] = $middleware;
             return $this;
@@ -96,7 +106,7 @@ namespace Kernel\Http\Route
          * @param  callable $callBack
          * @return Route
          */
-        public final function fireWall(string $order, callable $callBack = null) : Route
+        public final function fireWall(string $order, callable $callBack = null) : self
         {
             try
             {
@@ -200,6 +210,13 @@ namespace Kernel\Http\Route
             return $this;
         }
         /**
+         * @return boolean
+         */
+        public final function hasArea() : bool
+        {
+            return isset($this->area) ? true : false;
+        }
+        /**
          * @return void
          */
         public final function call()
@@ -217,13 +234,26 @@ namespace Kernel\Http\Route
                         $PartsCallable = explode('.', $this->callable);
                         if(count($PartsCallable) == 2)
                         {
-                            if(file_exists('MVC/Controllers/'.$PartsCallable[0].'.php'))
-                                include_once 'MVC/Controllers/'.$PartsCallable[0].'.php';
-                            else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
-                            $reflection = new \ReflectionClass('\\MVC\\Controllers\\'.$PartsCallable[0]);
-                            if(method_exists($reflection->newInstance(), $PartsCallable[1]))
-                                call_user_func_array([$reflection->newInstance(), $PartsCallable[1]], $this->parameter);
-                            else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                            if($this->hasArea())
+                            {
+                                if(file_exists('Areas/'.$this->area.'/Controllers/'.$PartsCallable[0].'.php'))
+                                    include_once 'Areas/'.$this->area.'/Controllers/'.$PartsCallable[0].'.php';
+                                else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                                $reflection = new \ReflectionClass('Areas\\'.$this->area.'\\Controllers\\'.$PartsCallable[0]);
+                                if(method_exists($reflection->newInstance(), $PartsCallable[1]))
+                                    call_user_func_array([$reflection->newInstance(), $PartsCallable[1]], $this->parameter);
+                                else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                            }
+                            else
+                            {
+                                if(file_exists('MVC/Controllers/'.$PartsCallable[0].'.php'))
+                                    include_once 'MVC/Controllers/'.$PartsCallable[0].'.php';
+                                else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                                $reflection = new \ReflectionClass('\\MVC\\Controllers\\'.$PartsCallable[0]);
+                                if(method_exists($reflection->newInstance(), $PartsCallable[1]))
+                                    call_user_func_array([$reflection->newInstance(), $PartsCallable[1]], $this->parameter);
+                                else throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                            }
                         }
                     }
                     else if($this->callable instanceof IRoute\Route)
@@ -233,15 +263,18 @@ namespace Kernel\Http\Route
                 }
                 else
                 {
-                    if(file_exists('MVC/Controllers/'.$this->controller.'.php'))
-                        include_once 'MVC/Controllers/'.$this->controller.'.php';
-                    else
-                        throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
-                    $reflection = new \ReflectionClass('\\MVC\\Controllers\\'.$this->controller);
-                    if(method_exists($reflection->newInstance(), $this->method))
-                        call_user_func_array([$reflection->newInstance(), $this->method], $this->parameter);
-                    else
-                        throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                    if($this->hasArea())
+                    {
+                        if(file_exists('Areas/'.$this->area.'/Controllers/'.$this->controller.'.php'))
+                            include_once 'Areas/'.$this->area.'/Controllers/'.$this->controller.'.php';
+                        else
+                            throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                        $reflection = new \ReflectionClass('Areas\\'.$this->area.'\\Controllers\\'.$this->controller);
+                        if(method_exists($reflection->newInstance(), $this->method))
+                            call_user_func_array([$reflection->newInstance(), $this->method], $this->parameter);
+                        else
+                            throw new RouteException('File: '.__FILE__.' --Line: '.__LINE__);
+                    }
                 }
             }
             catch (Exception $exception)
