@@ -6,6 +6,8 @@
  */
 namespace Kernel\Http
 {
+
+    use function PHPSTORM_META\type;
     use stdClass;
     final class Request
     {

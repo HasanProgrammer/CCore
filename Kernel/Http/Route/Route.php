@@ -291,7 +291,7 @@ namespace Kernel\Http\Route
             }
             catch (Exception $exception)
             {
-                d( $exception->getMessage() );
+                var_dump( $exception->getMessage() );
             }
         }
         /**

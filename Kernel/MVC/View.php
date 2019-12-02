@@ -12,6 +12,7 @@ namespace Kernel\MVC
     final class View
     {
 
+        private $area;
         private $layout;
         private $templateEngine;
         private $bufferElements;
@@ -22,6 +23,26 @@ namespace Kernel\MVC
         public final function __construct()
         {
             $this->templateEngine = config('View')['TemplateEngine'];
+        }
+        /**
+         * @param  string $area
+         * @param  string $path
+         * @return void
+         */
+        public final function setLayoutArea(string $area, string $path)
+        {
+            $path = trim($path);
+            $path = str_replace('.', '/', $path);
+            try
+            {
+                if(file_exists('Areas/'.$area.'/Views/Layout/'.$path.'.php'))
+                    $this->layout = $path;
+                else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
+            }
+            catch (ViewException $viewException)
+            {
+                d( $viewException->getMessage() );
+            }
         }
         /**
          * @param  string $path
@@ -43,16 +64,35 @@ namespace Kernel\MVC
             }
         }
         /**
+         * @param  string $area
+         * @return self
+         */
+        public final function area(string $area) : self
+        {
+            $this->area = $area;
+            return $this;
+        }
+        /**
          * @param  string $path
          * @param  array  $data
-         * @return View
+         * @return self
          */
-        public final function render(string $path, array $data = []) : View
+        public final function render(string $path, array $data = []) : self
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
             try
             {
+                if(isset($this->area))
+                {
+                    if(file_exists('Areas/'.$this->area.'/Views/Controllers/'.$path.'.php'))
+                    {
+                        $this->rendition('Areas/'.$this->area.'/Views/Controllers/'.$path.'.php'    , $data);
+                        $this->rendition('Areas/'.$this->area.'/Views/Layout/'.$this->layout.'.php' , $data);
+                        return $this;
+                    } else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
+                }
+
                 if(file_exists('MVC/Views/Controllers/'.$path.'.php'))
                 {
                     $this->rendition('MVC/Views/Controllers/'.$path.'.php'    , $data);
@@ -68,17 +108,31 @@ namespace Kernel\MVC
         /**
          * @param  string $path
          * @param  array  $data
-         * @return View
+         * @return self
          */
-        public final function renderAJAX(string $path, array $data = []) : View
+        public final function renderAJAX(string $path, array $data = []) : self
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
             try
             {
+                if(isset($this->area))
+                {
+                    if(file_exists('Areas/'.$this->area.'/Views/AJAX/'.$path.'.php'))
+                    {
+                        $this->rendition('Areas/'.$this->area.'/Views/AJAX/'.$path.'.php', null);
+                        return $this;
+                    }
+                    else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
+                }
+
                 if(file_exists('MVC/Views/AJAX/'.$path.'.php'))
+                {
                     $this->rendition('MVC/Views/AJAX/'.$path.'.php', null);
+                    return $this;
+                }
                 else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
+
             }
             catch (ViewException $viewException)
             {
@@ -88,17 +142,28 @@ namespace Kernel\MVC
         /**
          * @param  string $path
          * @param  array  $data
-         * @return void
+         * @return self
          */
-        public final function renderPartials(string $path, array $data = [])
+        public final function renderPartials(string $path, array $data = []) : self
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
             try
             {
+                if(isset($this->area))
+                {
+                    if(file_exists('Areas/'.$this->area.'/Views/Partials/'.$path.'.php'))
+                    {
+                        $this->rendition('Areas/'.$this->area.'/Views/Partials/'.$path.'.php', $data);
+                        return $this;
+                    }
+                    else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
+                }
+
                 if(file_exists('MVC/Views/Partials/'.$path.'.php'))
                 {
                     $this->rendition('MVC/Views/Partials/'.$path.'.php', $data);
+                    return $this;
                 }
                 else throw new ViewException("File: ".__FILE__." --Line: ".__LINE__);
             }
