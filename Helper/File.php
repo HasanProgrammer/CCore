@@ -57,6 +57,6 @@ if(!function_exists('config'))
      */
     function config(string $config, bool $root = false) : array
     {
-        return ( /*$root == false ?  getArrayInFile('../Configs/'.$config.'.php') :*/ getArrayInFile('Configs/'.$config.'.php'));
+        return getArrayInFile('Configs/'.$config.'.php');
     }
 }

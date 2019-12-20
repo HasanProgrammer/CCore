@@ -40,7 +40,10 @@ namespace Kernel
             return self::$instance;
         }
 
-        public final function beforeSignIn()
+        /**
+         * @return self
+         */
+        public final function beforeSignIn() : self
         {
             return $this;
         }

@@ -47,7 +47,7 @@ namespace Kernel
                         $this->handleRunServer();
                     break;
                     case 4:
-                        $this->handleCreateGate();
+                        $this->handleCreateMiddleware();
                     break;
                     case 5:
                         $this->handleCreateController();
@@ -134,19 +134,19 @@ namespace Kernel
         /**
          * @return void
          */
-        private final function handleCreateGate()
+        private final function handleCreateMiddleware()
         {
             while(true)
             {
-                echo "\nPlease insert your gate name: ";
+                echo "\nPlease insert your middleware name: ";
                 $console = trim( fgets(STDIN) );
                 if((string)$console === "/")
                     break;
                 if(!file_exists('Kernel/Http/Middleware/'.$console.'.php'))
                 {
-                    if(file_put_contents('Kernel/Http/Middleware/'.$console.'.php', str_replace('TemplateGate', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateGate.php'))))
+                    if(file_put_contents('Kernel/Http/Middleware/'.$console.'.php', str_replace('{middleware}', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateGate.php'))))
                     {
-                        echo "\nThe gate ".$console." was successfully built in path << Kernel->Http->Middleware >>\n";
+                        echo "\nThe middleware ".$console." was successfully built in path << Kernel->Http->Middleware >>\n";
                         break;
                     }
                 }
@@ -173,22 +173,23 @@ namespace Kernel
                 {
                     echo "\nPlease insert your area name: ";
                     $console_area_name = trim(fgets(STDIN));
-                    if(!is_dir('Areas/'.$console_area_name))
+                    if( !is_dir('Areas/'.$console_area_name) )
                     {
                         echo "\nThe area ".$console_area_name." not exists in path << Areas >>\n";
                         break;
                     }
                     if(!file_exists('Areas/'.$console_area_name.'/Controllers/'.$console.'.php'))
                     {
-                        if(file_put_contents('Areas/'.$console_area_name.'/Controllers/'.$console.'.php', str_replace('TemplateController', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateController.php'))))
+                        $template_controller = str_replace('{controller}Controller'     , $console        , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateController.txt'));
+                        if( file_put_contents('Areas/'.$console_area_name.'/Controllers/'.$console.'.php' , $template_controller) )
                         {
                             if(!is_dir('Areas/'.$console_area_name.'/Views/Controllers/'.$console)) mkdir('Areas/'.$console_area_name.'/Views/Controllers/'.$console);
                             if(!is_dir('WWW/JavaScript/Controllers/'                    .$console)) mkdir('WWW/JavaScript/Controllers/'                    .$console);
                             if(!is_dir('WWW/StyleSheet/Controllers/'                    .$console)) mkdir('WWW/StyleSheet/Controllers/'                    .$console);
 
-                            file_put_contents('Areas/'.$console_area_name.'/Views/Controllers/'.$console.'/Index.php' , str_replace("DefaultController", $console, file_get_contents('Kernel/Core/Templates/Console/Client/TemplateView.php')));
-                            file_put_contents('WWW/JavaScript/Controllers/'                    .$console.'/Index.js'  , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateJavaScript.js'));
-                            file_put_contents('WWW/StyleSheet/Controllers/'                    .$console.'/Index.css' , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateStyleSheet.css'));
+                            file_put_contents('Areas/'.$console_area_name.'/Views/Controllers/'.$console.'/Index.php' , str_replace("{controller}Controller" , $console , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateView.txt')));
+                            file_put_contents('WWW/JavaScript/Controllers/'                    .$console.'/Index.js'  , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateJavaScript.txt'));
+                            file_put_contents('WWW/StyleSheet/Controllers/'                    .$console.'/Index.css' , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateStyleSheet.txt'));
                             echo "\nThe controller ".$console." was successfully built in path << Areas->{$console_area_name}->Controllers >>\n";
                             break;
                         }
@@ -199,14 +200,15 @@ namespace Kernel
                 {
                     if(!file_exists('MVC/Controllers/'.$console.'.php'))
                     {
-                        if(file_put_contents('MVC/Controllers/'.$console.'.php', str_replace('TemplateController', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateController.php'))))
+                        if(file_put_contents('MVC/Controllers/'.$console.'.php', str_replace('{controller}Controller', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateController.txt'))))
                         {
                             if(!is_dir('MVC/Views/Controllers/'      .$console)) mkdir('MVC/Views/Controllers/'      .$console);
                             if(!is_dir('WWW/JavaScript/Controllers/' .$console)) mkdir('WWW/JavaScript/Controllers/' .$console);
                             if(!is_dir('WWW/StyleSheet/Controllers/' .$console)) mkdir('WWW/StyleSheet/Controllers/' .$console);
-                            file_put_contents('MVC/Views/Controllers/'  .$console.'/Index.php' , str_replace("DefaultController", $console, file_get_contents('Kernel/Core/Templates/Console/Client/TemplateView.php')));
-                            file_put_contents('JavaScript/Controllers/' .$console.'/Index.js'  , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateJavaScript.js'));
-                            file_put_contents('StyleSheet/Controllers/' .$console.'/Index.css' , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateStyleSheet.css'));
+
+                            file_put_contents('MVC/Views/Controllers/'      .$console.'/Index.php' , str_replace("{controller}Controller" , $console , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateView.txt')));
+                            file_put_contents('WWW/JavaScript/Controllers/' .$console.'/Index.js'  , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateJavaScript.txt'));
+                            file_put_contents('WWW/StyleSheet/Controllers/' .$console.'/Index.css' , file_get_contents('Kernel/Core/Templates/Console/Client/TemplateStyleSheet.txt'));
                             echo "\nThe controller ".$console." was successfully built in path << MVC->Controllers >>\n";
                             break;
                         }
@@ -227,19 +229,49 @@ namespace Kernel
                 $console = trim(fgets(STDIN));
                 if((string)$console === "/")
                     break;
-                if(!file_exists('MVC/Models/Logic/'.$console.'.php') && !file_exists('MVC/Models/DataModels/'.$console.'.php'))
+                echo "\nDo you want to have a area for this model? [y/n] ";
+                $console_area = trim(fgets(STDIN));
+                if($console_area === "y")
                 {
-                    if(
-                        file_put_contents('MVC/Models/Logic/'      .$console.'.php', str_replace('TemplateLogic'     , $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateLogic.php')))
-                        &&
-                        file_put_contents('MVC/Models/DataModels/' .$console.'.php', str_replace('TemplateDataModels', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDataModels.php')))
-                      )
+                    echo "\nPlease insert your area name: ";
+                    $console_area_name = trim(fgets(STDIN));
+                    if( !is_dir('Areas/'.$console_area_name) )
                     {
-                        echo "\nThe model ".$console." was successfully built in path << MVC->Models >>\n";
+                        echo "\nThe area ".$console_area_name." not exists in path << Areas >>\n";
                         break;
                     }
+                    if( !file_exists('Areas/'.$console_area_name.'/Models/Logic/'.$console.'.php') && !file_exists('Areas/'.$console_area_name.'/Models/DataModels/'.$console.'.php') )
+                    {
+                        $template_area_logic = str_replace('{logic}' , $console           , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateLogic.txt'));
+                        $template_area_model = str_replace('{model}' , $console           , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDataModels.txt'));
+                        if(
+                            file_put_contents('Areas/'.$console_area_name.'/Models/Logic/'     .$console.'.php' , $template_area_logic)
+                            &&
+                            file_put_contents('Areas/'.$console_area_name.'/Models/DataModels/'.$console.'.php' , $template_area_model)
+                          )
+                        {
+                            echo "\nThe model ".$console." was successfully built in path << Areas->{$console_area_name}->Models->Logic->{$console} >> & << Areas->{$console_area_name}->Models->DataModels->{$console}\n";
+                            break;
+                        }
+                    }
+                    else echo "\nThe model ".$console." exists already in path << Areas->{$console_area_name}->Models->Logic->{$console} >> & << Areas->{$console_area_name}->Models->DataModels->{$console}\n";
                 }
-                else echo "\nThe model ".$console." exists already in path << MVC->Models >>\n";
+                else if($console_area === "n")
+                {
+                    if( !file_exists('MVC/Models/Logic/'.$console.'.php') && !file_exists('MVC/Models/DataModels/'.$console.'.php') )
+                    {
+                        if(
+                            file_put_contents('MVC/Models/Logic/'      .$console.'.php', str_replace('{logic}' , $console , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateLogic.php')))
+                            &&
+                            file_put_contents('MVC/Models/DataModels/' .$console.'.php', str_replace('{model}' , $console , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDataModels.php')))
+                          )
+                        {
+                            echo "\nThe model ".$console." was successfully built in path << MVC->Models >>\n";
+                            break;
+                        }
+                    }
+                    else echo "\nThe model ".$console." exists already in path << MVC->Models >>\n";
+                }
             }
         }
         /**
@@ -264,7 +296,7 @@ namespace Kernel
                         $date_time = new \DateTime();
                         if(!file_exists('Database/'.$console.'.sql'))
                         {
-                            if(file_put_contents('Database/'.str_replace("/", "_", (string)$date_time->getTimezone()->getName())."_".$date_time->getTimestamp()."_".ucfirst(strtolower($console)).'.sql', str_replace("example", strtolower($console), file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDatabase.sql'))))
+                            if(file_put_contents('Database/'.str_replace("/", "_", (string)$date_time->getTimezone()->getName())."_".$date_time->getTimestamp()."_".ucfirst(strtolower($console)).'.sql', str_replace("{table}", strtolower($console), file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDatabase.txt'))))
                             {
                                 echo "\nMessage: The table structure << ".$console." >> was successfully built in path << Database >>\n";
                                 break;
@@ -371,6 +403,9 @@ namespace Kernel
         {
             if(Compressor::run()) echo "\nThe files compressed successfully\n";
         }
+        /**
+         * @return void
+         */
         private final function handleCreateArea()
         {
             while(true)
@@ -386,14 +421,19 @@ namespace Kernel
                 {
                     mkdir('Areas/'.$console);
 
-                    if(!is_dir('Areas/'.$console.'/Controllers'))       mkdir('Areas/'.$console.'/Controllers');
-                    if(!is_dir('Areas/'.$console.'/Models'))            mkdir('Areas/'.$console.'/Models');
-                    if(!is_dir('Areas/'.$console.'/Views'))             mkdir('Areas/'.$console.'/Views');
-                    if(!is_dir('Areas/'.$console.'/Views/Controllers')) mkdir('Areas/'.$console.'/Views/Controllers');
-                    if(!is_dir('Areas/'.$console.'/Views/AJAX'))        mkdir('Areas/'.$console.'/Views/AJAX');
-                    if(!is_dir('Areas/'.$console.'/Views/EMail'))       mkdir('Areas/'.$console.'/Views/EMail');
-                    if(!is_dir('Areas/'.$console.'/Views/Layout'))      mkdir('Areas/'.$console.'/Views/Layout');
-                    if(!is_dir('Areas/'.$console.'/Views/Partials'))    mkdir('Areas/'.$console.'/Views/Partials');
+                    if(!is_dir('Areas/'.$console.'/Controllers'))             mkdir('Areas/'.$console.'/Controllers');
+                    if(!is_dir('Areas/'.$console.'/Models'))                  mkdir('Areas/'.$console.'/Models');
+                    if(!is_dir('Areas/'.$console.'/Models/DataModels'))       mkdir('Areas/'.$console.'/Models/DataModels');
+                    if(!is_dir('Areas/'.$console.'/Models/Logic'))            mkdir('Areas/'.$console.'/Models/Logic');
+                    if(!is_dir('Areas/'.$console.'/Models/StorageModels'))    mkdir('Areas/'.$console.'/Models/StorageModels');
+                    if(!is_dir('Areas/'.$console.'/Models/Versions'))         mkdir('Areas/'.$console.'/Models/Versions');
+                    if(!file_exists('Areas/'.$console.'/Models/Version.php')) file_put_contents('Areas/'.$console.'/Models/'.$console.'Version.php' , str_replace('{version}' , $console , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateVersionModel.txt')));
+                    if(!is_dir('Areas/'.$console.'/Views'))                   mkdir('Areas/'.$console.'/Views');
+                    if(!is_dir('Areas/'.$console.'/Views/Controllers'))       mkdir('Areas/'.$console.'/Views/Controllers');
+                    if(!is_dir('Areas/'.$console.'/Views/AJAX'))              mkdir('Areas/'.$console.'/Views/AJAX');
+                    if(!is_dir('Areas/'.$console.'/Views/EMail'))             mkdir('Areas/'.$console.'/Views/EMail');
+                    if(!is_dir('Areas/'.$console.'/Views/Layout'))            mkdir('Areas/'.$console.'/Views/Layout');
+                    if(!is_dir('Areas/'.$console.'/Views/Partials'))          mkdir('Areas/'.$console.'/Views/Partials');
                     echo "\nThe area ".$console." was successfully built in path << Areas->{$console} >>\n";
                     break;
                 }

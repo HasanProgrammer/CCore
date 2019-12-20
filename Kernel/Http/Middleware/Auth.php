@@ -1,23 +1,24 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
  * @package CCore
  */
-namespace Kernel\Http\Gate
+namespace Kernel\Http\Middleware
 {
 
     use Kernel\Http\Request;
     use Libs\Finals\Session;
     use Kernel\Database\Pecod;
 
-    final class Auth
+    class Auth
     {
         /**
          * @param  Request $request
          * @return void
          */
-        public final function run(Request $request)
+        public function run(Request $request)
         {
             if(!Session::checkExE('Login')) redirect('SignIn');
         }

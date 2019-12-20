@@ -15,4 +15,11 @@ return
         "Success-SignUp" => ""
     ]
 
+    ,
+
+    "Bank" =>
+    [
+        "Error-Object" => ""
+    ]
+
 ];

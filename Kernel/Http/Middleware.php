@@ -23,9 +23,9 @@ namespace Kernel\Http
         }
         /**
          * @param  string $middleware
-         * @return Middleware
+         * @return self
          */
-        public final function handle(string $middleware) : Middleware
+        public final function handle(string $middleware) : self
         {
             try
             {
@@ -53,6 +53,8 @@ namespace Kernel\Http
             {
                 d( $e->getMessage() );
             }
+
+            return $this;
         }
     }
 }

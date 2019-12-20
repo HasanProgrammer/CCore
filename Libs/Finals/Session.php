@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -18,6 +19,7 @@ namespace Libs\Finals
         {
             if(session_status() == PHP_SESSION_NONE) session_start();
         }
+
         /**
          * @param  string | array   $key
          * @param  string | integer $value
@@ -47,6 +49,7 @@ namespace Libs\Finals
 
             return false;
         }
+
         /**
          * @param  string | array $key
          * @return boolean
@@ -67,6 +70,7 @@ namespace Libs\Finals
             }
             return false;
         }
+
         /**
          * @param  string $key
          * @return string | integer | array
@@ -100,6 +104,7 @@ namespace Libs\Finals
 
             return false;
         }
+
         /**
          * @param  string | array $key
          * @return boolean
