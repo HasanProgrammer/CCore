@@ -20,64 +20,33 @@ namespace Kernel\Http\Middleware
          */
         public function run(Request $request)
         {
-            if(!$request->isJsonFile())
+            if( !$request->isJsonFile() )
             {
-                //Handle Get Request
-                if( $request->isGetMethod() )
+                if(
+                    $request->isGetMethod()   ||
+                    $request->isPostMethod()  ||
+                    $request->isPutMethod()   ||
+                    $request->isPatchMethod() ||
+                    $request->isDeleteMethod()
+                  )
                 {
-                    if( $request->get()->has("csrf") )
+                    if(
+                        $request->get()   ->has("csrf") ||
+                        $request->post()  ->has("csrf") ||
+                        $request->put()   ->has("csrf") ||
+                        $request->patch() ->has("csrf") ||
+                        $request->delete()->has("csrf")
+                      )
                     {
-                        if( $request->get()->csrf == Session::get("csrf") )
+                        if(
+                            $request->get()   ->csrf != Session::get("csrf") ||
+                            $request->post()  ->csrf != Session::get("csrf") ||
+                            $request->put()   ->csrf != Session::get("csrf") ||
+                            $request->patch() ->csrf != Session::get("csrf") ||
+                            $request->delete()->csrf != Session::get("csrf")
+                          )
                         {
-
-                        }
-                    }
-                }
-
-                //Handle Post Request
-                if( $request->isPostMethod() )
-                {
-                    if( $request->post()->has("csrf") )
-                    {
-                        if( $request->post()->csrf == Session::get("csrf") )
-                        {
-
-                        }
-                    }
-                }
-
-                //Handle Put Request
-                if( $request->isPutMethod() )
-                {
-                    if( $request->put()->has("csrf") )
-                    {
-                        if( $request->put()->csrf == Session::get("csrf") )
-                        {
-
-                        }
-                    }
-                }
-
-                //Handle Patch Request
-                if( $request->isPatchMethod() )
-                {
-                    if( $request->patch()->has("csrf") )
-                    {
-                        if( $request->patch()->csrf == Session::get("csrf") )
-                        {
-
-                        }
-                    }
-                }
-
-                //Handle Delete Request
-                if( $request->isDeleteMethod() )
-                {
-                    if( $request->delete()->has("csrf") )
-                    {
-                        if( $request->delete()->csrf == Session::get("csrf") )
-                        {
-
+                            redirect("Error");
                         }
                     }
                 }

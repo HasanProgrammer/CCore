@@ -49,6 +49,7 @@
         "files": [
             "Helper/Array.php"    ,
             "Helper/Buffer.php"   ,
+            "Helper/Database.php" ,
             "Helper/File.php"     ,
             "Helper/Http.php"     ,
             "Helper/IP.php"       ,
