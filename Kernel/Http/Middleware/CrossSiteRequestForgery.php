@@ -12,13 +12,13 @@ namespace Kernel\Http\Middleware
     use Kernel\Http\Request;
     use Kernel\Database\Pecod;
 
-    class CrossSiteRequestForgery
+    class CrossSiteRequestForgery //CSRF
     {
         /**
          * @param  Request $request
          * @return void
          */
-        public function run(Request $request)
+        public function run(Request $request) : void
         {
             if( !$request->isJsonFile() )
             {

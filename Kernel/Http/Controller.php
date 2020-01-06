@@ -8,13 +8,21 @@
 namespace Kernel\Http
 {
 
+    use Kernel\MVC\View;
+    use Kernel\MVC\Model;
     use Kernel\MVC\Controller as BaseController;
 
     class Controller extends BaseController
     {
+        /**
+         * @var View $view
+         */
+        protected View  $view;
 
-        protected $view;
-        protected $model;
+        /**
+         * @var Model $model
+         */
+        protected Model $model;
 
         /**
          * @return void
@@ -22,8 +30,8 @@ namespace Kernel\Http
         public function __construct()
         {
             parent::__construct();
-            $this->view  = new \Kernel\MVC\View();
-            $this->model = new \Kernel\MVC\Model();
+            $this->view  = new View();
+            $this->model = new Model();
         }
     }
 }

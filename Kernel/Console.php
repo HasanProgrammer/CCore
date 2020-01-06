@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -7,34 +8,50 @@
 namespace Kernel
 {
 
+    use PDO;
+    use DateTime;
+    use Exception;
     use Libs\Finals\ListFile;
     use Libs\Finals\Compressor;
     use Kernel\Database\Database;
 
-    final class Console
+    class Console
     {
-        private static $host;
-        private static $username;
-        private static $password;
+        /**
+         * @var string $host
+         */
+        private static string $host;
+
+        /**
+         * @var string $username
+         */
+        private static string $username;
+
+        /**
+         * @var string $password
+         */
+        private static string $password;
+
         /**
          * @return void
          */
-        public final function __construct()
+        public function __construct()
         {
             self::$host       = (string)config("Database", true)["Mysql"]["Host"];
             self::$username   = (string)config("Database", true)["Mysql"]["Username"];
             self::$password   = (string)config("Database", true)["Mysql"]["Password"];
         }
+
         /**
-         * @Method[Validate]
          * @return void
+         * @throws Exception
          */
-        public final function run()
+        public function run()
         {
             while(true)
             {
                 $this->getMainMenuOption();
-                $console = trim( fgets(STDIN) );
+                $console = trim( fgets(STDIN) ); // fgets(STDIN) = fgets( fopen("php://stdin" , "r"))
                 switch($console)
                 {
                     case 1:
@@ -62,43 +79,51 @@ namespace Kernel
                         $this->handleCompressFile();
                     break;
                     case 9:
+                        echo "There is no structure yet for this purpose!";
                         break;
                     case 10:
                         $this->handleCreateArea();
                         break;
                     case 11:
+                        echo "cron job";
+                        break;
+                    case 12:
                         echo "Goodby!\n\n";
                         exit();
                     break;
                 }
             }
         }
+
         /**
          * @return void
          */
-        private final function getMainMenuOption()
+        private function getMainMenuOption() : void
         {
             echo file_get_contents('Kernel/Core/Documents/Console.1.txt');
         }
+
         /**
          * @return void
          */
-        private final function getDatabaseStructureMenuOption()
+        private function getDatabaseStructureMenuOption() : void
         {
             echo file_get_contents('Kernel/Core/Documents/Console.2.txt');
         }
+
         /**
          * @return void
          */
-        private final function handleRunDatabase()
+        private function handleRunDatabase() : void
         {
             echo "\nThe mysql was successfully connected\n\n";
             shell_exec("mysqld --console");
         }
+
         /**
          * @return void
          */
-        private final function handleInteractiveDatabase()
+        private function handleInteractiveDatabase() : void
         {
             echo "\nWelcome to shell mysql. Please insert your query...\n\n";
             while(true)
@@ -111,30 +136,32 @@ namespace Kernel
                 $query   = Database::getNewInstance()->getConnectionPDO()->prepare($console);
                 if($query->execute())
                 {
-                    $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+                    $result = $query->fetchAll(PDO::FETCH_ASSOC);
                     echo "\n";
                     print_r($result);
                     echo "\n";
                 }
             }
         }
+
         /**
          * @return void
          */
-        private final function handleRunServer()
+        private function handleRunServer() : void
         {
             echo "Please insert your port: ";
-            $console = trim(fgets(STDIN));
+            $console = trim( fgets(STDIN) );
             if(isset($console))
             {
-                echo "\nThe server was successfully built: <http://127.0.0.1:$console>\n\n";
+                echo "\nThe server was successfully built\n\n";
                 shell_exec("php -S 127.0.0.1:".$console);
             }
         }
+
         /**
          * @return void
          */
-        private final function handleCreateMiddleware()
+        private function handleCreateMiddleware() : void
         {
             while(true)
             {
@@ -144,44 +171,44 @@ namespace Kernel
                     break;
                 if(!file_exists('Kernel/Http/Middleware/'.$console.'.php'))
                 {
-                    if(file_put_contents('Kernel/Http/Middleware/'.$console.'.php', str_replace('{middleware}', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateGate.php'))))
+                    if( file_put_contents('Kernel/Http/Middleware/'.$console.'.php', str_replace('{middleware}', $console, file_get_contents('Kernel/Core/Templates/Console/Server/TemplateMiddleware.txt'))) )
                     {
                         echo "\nThe middleware ".$console." was successfully built in path << Kernel->Http->Middleware >>\n";
                         break;
                     }
                 }
-                echo "\nThe gate ".$console." exists already in path << Kernel->Http->Middleware >>\n";
+                echo "\nThe middleware ".$console." exists already in path << Kernel->Http->Middleware >>\n";
             }
         }
+
         /**
          * @return void
          */
-        private final function handleCreateController()
+        private function handleCreateController() : void
         {
             while(true)
             {
                 echo "\nPlease insert your controller name: ";
-                $console = trim(fgets(STDIN));
+                $console = trim( fgets(STDIN) );
                 if((string)$console === "/")
                     break;
-                if(!preg_match("#(.+){1}Controller#i", $console))
-                    $console = $console."Controller";
-                $console = ucfirst($console);
+                $console = ucfirst(strtolower($console))."Controller";
                 echo "\nDo you want to have a area for this controller? [y/n] ";
-                $console_area = trim(fgets(STDIN));
+                $console_area = trim( fgets(STDIN) );
                 if($console_area === "y")
                 {
                     echo "\nPlease insert your area name: ";
-                    $console_area_name = trim(fgets(STDIN));
+                    $console_area_name = trim( fgets(STDIN) );
                     if( !is_dir('Areas/'.$console_area_name) )
                     {
                         echo "\nThe area ".$console_area_name." not exists in path << Areas >>\n";
-                        break;
+                        continue;
                     }
-                    if(!file_exists('Areas/'.$console_area_name.'/Controllers/'.$console.'.php'))
+                    if( !file_exists('Areas/'.$console_area_name.'/Controllers/'.$console.'.php') )
                     {
-                        $template_controller = str_replace('{controller}Controller'     , $console        , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateController.txt'));
-                        if( file_put_contents('Areas/'.$console_area_name.'/Controllers/'.$console.'.php' , $template_controller) )
+                        $template_controller = str_replace('{area}'                     , $console_area_name , file_get_contents('Kernel/Core/Templates/Console/Server/TemplateAreaController.txt'));
+                        $template_controller = str_replace('{controller}Controller'     , $console           , $template_controller);
+                        if( file_put_contents('Areas/'.$console_area_name.'/Controllers/'.$console.'.php'    , $template_controller) )
                         {
                             if(!is_dir('Areas/'.$console_area_name.'/Views/Controllers/'.$console)) mkdir('Areas/'.$console_area_name.'/Views/Controllers/'.$console);
                             if(!is_dir('WWW/JavaScript/Controllers/'                    .$console)) mkdir('WWW/JavaScript/Controllers/'                    .$console);
@@ -221,7 +248,7 @@ namespace Kernel
         /**
          * @return void
          */
-        private final function handleCreateModel()
+        private function handleCreateModel() : void
         {
             while(true)
             {
@@ -274,40 +301,46 @@ namespace Kernel
                 }
             }
         }
+
         /**
          * @return void
+         * @throws Exception
          */
-        public final function handleDatabaseStructure()
+        public function handleDatabaseStructure() : void
         {
             while(true)
             {
                 $this->getDatabaseStructureMenuOption();
-                $console = trim(fgets(STDIN));
+                $console = trim( fgets(STDIN) );
                 if((string)$console === "/")
                     break;
                 switch($console)
                 {
+                    /* Difination The Migration's File */
                     case 1:
                     {
                         echo "\nPlease insert your table name: ";
-                        $console = trim(fgets(STDIN));
+                        $console = trim( fgets(STDIN) );
                         if((string)$console === "/")
                             break;
-                        $date_time = new \DateTime();
-                        if(!file_exists('Database/'.$console.'.sql'))
+                        $date_time = new DateTime();
+                        if(!file_exists('Database/Migrations/'.$console.'.sql'))
                         {
-                            if(file_put_contents('Database/'.str_replace("/", "_", (string)$date_time->getTimezone()->getName())."_".$date_time->getTimestamp()."_".ucfirst(strtolower($console)).'.sql', str_replace("{table}", strtolower($console), file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDatabase.txt'))))
+                            if(file_put_contents('Database/Migrations/Migration_'.$date_time->getTimestamp()."_".ucfirst(strtolower($console)).'.sql', str_replace("{table}", strtolower($console), file_get_contents('Kernel/Core/Templates/Console/Server/TemplateDatabase.txt'))))
                             {
-                                echo "\nMessage: The table structure << ".$console." >> was successfully built in path << Database >>\n";
+                                echo "\nMessage: The table difination << ".$console." >> was successfully built in path << Database->Migrations >>\n";
                                 break;
                             }
-                        } else echo "\nMessage: The table structure $console exists already in path << Database >>\n";
-                    }break;
+                        } else echo "\nMessage: The table difination << $console >> exists already in path << Database->Migrations >>\n";
+                    }
+                    break;
+                    /* Run The All Migration's Files */
                     case 2:
                     {
                         Database::getNewInstance()->getConnectionPDO()->prepare(file_get_contents("Kernel/Core/Templates/Console/Server/Version.sql"))->execute();
-                        $database = ListFile::exe('Database');
-                        if(count($database) != 0) {
+                        $database = ListFile::exe('Database\\Migrations');
+                        if(count($database) != 0)
+                        {
                             $error = false;
                             foreach($database as $file)
                             {
@@ -329,23 +362,24 @@ namespace Kernel
                                         }
                                         else
                                         {
-                                            echo "\nMessage: The table ".explode('/', $file)[1]." already exists!\n";
+                                            echo "\nMessage: The table << ".explode('/', $file)[1]." >> already exists!\n";
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    echo "\nMessage: The table << ".explode('/', $file)[1]." >> not exists in path << Database >>\n";
+                                    echo "\nMessage: The table << ".explode('/', $file)[1]." >> not exists in path << Database->Migrations >>\n";
                                     $error = true;
                                 }
                             }
-                            if($error == true)
-                                echo "\nMessage: The tables was not successfully built completely\n";
-                        } else echo "\nMessage: The table structure not exists in path << Database >>\n";
-                    }break;
+                            if($error == true) echo "\nMessage: The tables was not successfully built completely\n";
+                        } else echo "\nMessage: Not found any migration's files in path << Database->Migrations >>\n";
+                    }
+                    break;
+                    /* Showing List Migration's Files */
                     case 3:
                     {
-                        $database = ListFile::exe('Database');
+                        $database = ListFile::exe('Database\\Migrations');
                         if(count($database) != 0)
                         {
                             $X = 1;
@@ -354,15 +388,17 @@ namespace Kernel
                                 if(file_exists($file))
                                     echo "\nTable-0$X: ".explode('/', $file)[1]."\n";
                                 else
-                                    echo "\nMessage: The table << ".explode('/', $file)[1]." >> not exists in path << Database >>\n";
+                                    echo "\nMessage: The table << ".explode('/', $file)[1]." >> not exists in path << Database->Migrations >>\n";
                                 $X++;
                             }
                         }
-                        else echo "\nMessage: The table structure not exists in path << Database >>\n";
-                    }break;
+                        else echo "\nMessage: The table structure not exists in path << Database->Migrations >>\n";
+                    }
+                    break;
+                    /* Delete The Migration's Files */
                     case 4:
                     {
-                        $database = ListFile::exe('Database');
+                        $database = ListFile::exe('Database\\Migrations');
                         if(count($database) != 0)
                         {
                             $error = false;
@@ -370,7 +406,7 @@ namespace Kernel
                             {
                                 if(file_exists($file))
                                 {
-                                    $table = explode('_', explode('.', explode('/', $file)[1])[0]);
+                                    $table = explode('_', explode('.', $file)[0]);
                                     $table = strtolower(end($table));
                                     if(Database::getNewInstance()->getConnectionPDO()->prepare("DROP TABLE IF EXISTS ".$table)->execute())
                                     {
@@ -381,42 +417,68 @@ namespace Kernel
                                 }
                                 else
                                 {
-                                    echo "\nThe table ".explode('/', $file)[1]." not exists in path << Database >>\n";
+                                    echo "\nThe table << ".explode('/', $file)[1]." >> not exists in path << Database->Migrations >>\n";
                                     $error = true;
                                 }
                             }
-                            if($error == true)
-                                echo "\nThe tables was not successfully delete completely\n";
-                            break;
-                        } else echo "\nThe table structure not exists in path << Database >>\n";
-                    }break;
+                            if($error == true) echo "\nThe tables was not successfully delete completely!\n";
+                        } else echo "\nThe table structure not exists in path << Database->Migrations >>\n";
+                    }
+                    break;
+                    /* Showing The Tables Status In The Target's Database */
                     case 5:
-
+                        $database = ListFile::exe('Database\\Migrations');
+                        if(count($database) != 0)
+                        {
+                            foreach($database as $file)
+                            {
+                                if(file_exists($file))
+                                {
+                                    $query = Database::getNewInstance()->getConnectionPDO()->prepare("SELECT * FROM version WHERE tbl = '".explode("/", $file)[1]."'");
+                                    if($query->execute())
+                                    {
+                                        if($query->rowCount() == 1 && (integer)$query->fetchAll(PDO::FETCH_ASSOC)[0]["status"] == 1)
+                                        {
+                                            echo "\nMessage: ".explode("/", $file)[1]." -> Active\n";
+                                        }
+                                        else
+                                        {
+                                            echo "\nMessage: ".explode("/", $file)[1]." -> Inactive\n";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    echo "\nMessage: The migration << ".explode("/", $file)[1]." >> not exists in path << Database->Migrations >>\n";
+                                }
+                            }
+                        } else echo "\nMessage: Not found any migration's files in path << Database->Migrations >>\n";
                     break;
                 }
             }
         }
+
         /**
          * @return void
          */
-        private final function handleCompressFile()
+        private function handleCompressFile() : void
         {
             if(Compressor::run()) echo "\nThe files compressed successfully\n";
         }
+
         /**
          * @return void
          */
-        private final function handleCreateArea()
+        private function handleCreateArea() : void
         {
             while(true)
             {
                 echo "\nPlease insert your area name: ";
-                $console = trim(fgets(STDIN));
+                $console = trim( fgets(STDIN) );
                 if((string)$console === "/")
                     break;
-                if(!preg_match("#(.+){1}Area#i", $console))
-                    $console = $console."Area";
-                $console = ucfirst($console);
+                $console = ucfirst( strtolower($console) );
+                $console = $console."Area";
                 if(!is_dir('Areas/'.$console))
                 {
                     mkdir('Areas/'.$console);

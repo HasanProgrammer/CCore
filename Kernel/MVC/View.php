@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -11,25 +12,40 @@ namespace Kernel\MVC
 
     final class View
     {
+        /**
+         * @var string $area
+         */
+        private string $area;
 
-        private $area;
-        private $layout;
-        private $templateEngine;
-        private $bufferElements;
+        /**
+         * @var string $layout
+         */
+        private string $layout;
+
+        /**
+         * @var array $templateEngine
+         */
+        private array $templateEngine;
+
+        /**
+         * @var array $bufferElements
+         */
+        private array $bufferElements;
 
         /**
          * @return void
          */
-        public final function __construct()
+        public function __construct()
         {
             $this->templateEngine = config('View')['TemplateEngine'];
         }
+
         /**
          * @param  string $area
          * @param  string $path
          * @return void
          */
-        public final function setLayoutArea(string $area, string $path)
+        public final function setLayoutArea(string $area, string $path) : void
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
@@ -44,11 +60,12 @@ namespace Kernel\MVC
                 d( $viewException->getMessage() );
             }
         }
+
         /**
          * @param  string $path
          * @return void
          */
-        public final function setLayout(string $path)
+        public final function setLayout(string $path) : void
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
@@ -63,6 +80,7 @@ namespace Kernel\MVC
                 d( $viewException->getMessage() );
             }
         }
+
         /**
          * @param  string $area
          * @return self
@@ -72,12 +90,13 @@ namespace Kernel\MVC
             $this->area = $area;
             return $this;
         }
+
         /**
          * @param  string $path
          * @param  array  $data
          * @return self
          */
-        public final function render(string $path, array $data = []) : self
+        public final function render(string $path, array $data = []) : ?self
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
@@ -104,13 +123,16 @@ namespace Kernel\MVC
             {
                 d( $viewException->getMessage() );
             }
+
+            return null;
         }
+
         /**
          * @param  string $path
          * @param  array  $data
          * @return self
          */
-        public final function renderAJAX(string $path, array $data = []) : self
+        public final function renderAJAX(string $path, array $data = []) : ?self
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
@@ -138,13 +160,16 @@ namespace Kernel\MVC
             {
                 d( $viewException->getMessage() );
             }
+
+            return null;
         }
+
         /**
          * @param  string $path
          * @param  array  $data
          * @return self
          */
-        public final function renderPartials(string $path, array $data = []) : self
+        public final function renderPartials(string $path, array $data = []) : ?self
         {
             $path = trim($path);
             $path = str_replace('.', '/', $path);
@@ -171,22 +196,26 @@ namespace Kernel\MVC
             {
                 d( $viewException->getMessage() );
             }
+
+            return null;
         }
+
         /**
          * @param  string  $path
          * @param  integer $timeOut
          * @return void
          */
-        public final function redirect(string $path, int $timeOut)
+        public final function redirect(string $path, int $timeOut) : void
         {
             redirectOnTime($path, $timeOut);
         }
+
         /**
          * @param  string $mark
          * @param  string $value
          * @return void
          */
-        public final function section(string $mark, string $value = null)
+        public function section(string $mark, string $value = null) : void
         {
             $mark  = trim($mark);
             $value = trim($value);
@@ -200,19 +229,21 @@ namespace Kernel\MVC
                 ob_start();
             }
         }
+
         /**
          * @param  string $mark
          * @return void
          */
-        public final function end(string $mark)
+        public function end(string $mark) : void
         {
             $this->bufferElements[trim($mark)] = ob_get_clean();
         }
+
         /**
          * @param  string $mark
          * @return string
          */
-        public final function content(string $mark) : string
+        public function content(string $mark) : ?string
         {
             $mark = trim($mark);
             try
@@ -225,13 +256,16 @@ namespace Kernel\MVC
             {
                 d( $viewException->getMessage() );
             }
+
+            return null;
         }
+
         /**
          * @param  string $pathView
          * @param  array  $data
          * @return void
          */
-        private final function rendition(string $pathView, array $data)
+        private function rendition(string $pathView, array $data) : void
         {
             ob_start();
             extract($data);

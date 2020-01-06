@@ -5,7 +5,7 @@
  * @version 1
  * @package CCore
  */
-namespace Kernel\Http\Gate
+namespace Kernel\Http\Middleware
 {
 
     use Kernel\Http\Request;

@@ -7,6 +7,7 @@
 namespace Kernel\Http\WebServices\BankPort\ZarinPal
 {
 
+    use SoapFault;
     use Kernel\Core\Classes\Interfaces\Http\BankPort\Request as BaseRequest;
 
     final class Payment
@@ -16,6 +17,8 @@ namespace Kernel\Http\WebServices\BankPort\ZarinPal
         /**
          * @param  integer $amount
          * @return void
+         *
+         * @throws SoapFault
          */
         public final function __construct(int $amount)
         {

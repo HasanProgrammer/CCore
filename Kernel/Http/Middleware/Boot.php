@@ -18,7 +18,7 @@ namespace Kernel\Http\Middleware
          * @param  Request $request
          * @return void
          */
-        public function run(Request $request)
+        public function run(Request $request) : void
         {
             //Set Session
             if( !Session::checkExE("csrf") ) Session::set("csrf" , hash("sha256" , time()));

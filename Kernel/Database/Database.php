@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -10,10 +11,18 @@ namespace Kernel\Database
     use PDO;
     use PDOException;
 
-    class Database
+    final class Database
     {
-        private static $instance;
-        private static $connectionPDO;
+        /**
+         * @var Database $instance
+         */
+        private static Database $instance;
+
+        /**
+         * @var PDO $connectionPDO
+         */
+        private static PDO $connectionPDO;
+
         /**
          * @return void
          */
@@ -35,18 +44,20 @@ namespace Kernel\Database
                 d( $e->getMessage() );
             }
         }
+
         /**
-         * @return Database
+         * @return self
          */
-        public static function getNewInstance() : Database
+        public static function getNewInstance() : self
         {
             if(!isset(self::$instance)) self::$instance = new Database();
             return self::$instance;
         }
+
         /**
          * @return PDO
          */
-        public final function getConnectionPDO() : PDO
+        public function getConnectionPDO() : PDO
         {
             return self::$connectionPDO;
         }

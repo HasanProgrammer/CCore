@@ -7,10 +7,15 @@
  */
 namespace Kernel\MVC
 {
+
+    use Kernel\Http\Middleware;
+
     class Controller
     {
-
-        protected $middleware;
+        /**
+         * @var Middleware $middleware
+         */
+        protected Middleware $middleware;
 
         /**
          * @return void

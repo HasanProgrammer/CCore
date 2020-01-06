@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -8,12 +9,12 @@ namespace Libs\Finals
 {
     final class ListFile
     {
-        private static $files = [];
+        private static array $files = [];
         /**
          * @param  string $file
          * @return array
          */
-        public static final function exe(string $file) : array
+        public static function exe(string $file) : array
         {
             self::$files = [];
             foreach(glob($file.'/*') as $item)

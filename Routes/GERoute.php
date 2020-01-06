@@ -3,6 +3,7 @@ use Kernel\Http\Request;
 use Kernel\Database\Pecod;
 use Kernel\Http\Route\HttpRequest;
 use Kernel\Core\Classes\Interfaces\Http\Route;
+use Kernel\Core\Classes\Interfaces\Http\Route\Route as IRoute;
 
 /*___________________________________________________________
  |
@@ -10,4 +11,5 @@ use Kernel\Core\Classes\Interfaces\Http\Route;
  |___________________________________________________________
 */
 
-HttpRequest::get('/')->controller('Home')->action('Index');
+HttpRequest::get('/')->controller("Home")
+                     ->action("Index");

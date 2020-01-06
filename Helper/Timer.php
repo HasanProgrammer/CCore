@@ -9,7 +9,7 @@ if(!function_exists('timer'))
      * @param   callable $callback
      * @return  mixed | boolean
      */
-    function timer(int $timer, callable $callback)
+    function timer(int $timer, callable $callback) : ?bool
     {
         $nowTime = time();
         while(true)

@@ -18,7 +18,7 @@ namespace Kernel\Http\Middleware
          * @param  Request $request
          * @return void
          */
-        public function run(Request $request)
+        public function run(Request $request) : void
         {
             if(!Session::checkExE('Login')) redirect('SignIn');
         }

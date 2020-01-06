@@ -16,7 +16,7 @@ namespace Kernel\MVC
         /**
          * @var string
          */
-        private $area;
+        private string $area;
 
         /**
          * @param  string $area

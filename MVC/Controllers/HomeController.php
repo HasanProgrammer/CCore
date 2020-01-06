@@ -8,9 +8,11 @@
 namespace MVC\Controllers
 {
 
+    use Kernel\Cash;
+    use Kernel\Http\WebServices\WebService;
+    use Libs\Finals\Session;
     use Kernel\Http\Request;
     use Kernel\Http\Controller;
-    use Libs\Finals\Session;
 
     class HomeController extends Controller
     {
@@ -26,7 +28,7 @@ namespace MVC\Controllers
          * @param  Request $request
          * @return void
          */
-        public function Index(Request $request)
+        public function Index(Request $request) : void
         {
             $this->view->render('HomeController.Index');
         }

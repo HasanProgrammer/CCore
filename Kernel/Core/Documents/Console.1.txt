@@ -14,7 +14,8 @@ CCore CLI ( Pake )
 08. Compress Client File
 09. Create Annotation
 10. Create Area
-11. Exists
+11. Create Cron Job
+12. Exists
 -----------------------------------
 
 Please select your item :

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -13,27 +14,30 @@ namespace Kernel\Database
     use PHPMailer\PHPMailer\Exception;
     use Kernel\Core\Classes\Interfaces\Database\ORM as IORM;
 
-    final class Pecod
+    class Pecod
     {
-        const FETCH_SIMPLE = "fetch_simple";
-        const FETCH_OBJECT = "fetch_object";
-        const RESULT_ON    = 1;
-        const RESULT_OFF   = 0;
+        public const FETCH_SIMPLE = "fetch_simple";
+        public const FETCH_OBJECT = "fetch_object";
+        public const RESULT_ON    = 1;
+        public const RESULT_OFF   = 0;
+
         /**
          * Class Fields
          */
-        private static $instance;
-        private static $database;
-        private static $targetTable;
+        private static Pecod  $instance;
+        private static PDO    $database;
+        private static string $targetTable;
+
         /**
          * Object Fields
          */
-        private $request;
-        private $whereKey;
-        private $groupByKey;
-        private $orderByKey;
-        private $executeValue   = null;
-        private $queryStatement = null;
+        private Request $request;
+        private bool    $whereKey;
+        private bool    $groupByKey;
+        private bool    $orderByKey;
+        private array   $executeValue;
+        private string  $queryStatement;
+
         /**
          * @return void
          */
@@ -42,14 +46,16 @@ namespace Kernel\Database
             self::$database = Database::getNewInstance()->getConnectionPDO();
             $this->request  = new Request();
         }
+
         /**
-         * @return \PDO
+         * @return PDO
          */
         public static function rowQuery() : PDO
         {
             new Pecod();
             return self::$database;
         }
+
         /**
          * @param  string   $name
          * @param  callable $callBack
@@ -64,11 +70,12 @@ namespace Kernel\Database
             else
                 return self::$instance;
         }
+
         /**
          * @param  mixed $reference
          * @return void
          */
-        public final function transaction($reference)
+        public function transaction($reference) : void
         {
             try
             {
@@ -84,14 +91,15 @@ namespace Kernel\Database
                 self::$database->rollBack();
             }
         }
+
         /**
          * @param  mixed $column
-         * @return Pecod
+         * @return self
          */
-        public final function select($column = null) : Pecod
+        public function select($column = null) : self
         {
             $this->queryStatement = null;
-            $this->executeValue   = null;
+            $this->executeValue   = [];
             if(isset($column))
             {
                 $this->queryStatement .= "SELECT ";
@@ -104,21 +112,23 @@ namespace Kernel\Database
             } else $this->queryStatement .= "SELECT * FROM ".self::$targetTable;
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function selectBySelect() : Pecod
+        public function selectBySelect() : self
         {
             return $this;
         }
+
         /**
          * @param  mixed $condition
-         * @return Pecod
+         * @return self
          */
-        public final function push($condition) : Pecod
+        public function push($condition) : self
         {
             $this->queryStatement  = null;
-            $this->executeValue    = null;
+            $this->executeValue    = [];
             if(is_array($condition) && isAssoc($condition))
             {
                 $this->queryStatement .= "INSERT INTO ".self::$targetTable." ( ";
@@ -134,14 +144,15 @@ namespace Kernel\Database
             }
             return $this;
         }
+
         /**
          * @param  mixed $condition
-         * @return Pecod
+         * @return self
          */
-        public final function fresh($condition) : Pecod
+        public function fresh($condition) : self
         {
             $this->queryStatement  = null;
-            $this->executeValue    = null;
+            $this->executeValue    = [];
             if(is_array($condition) && isAssoc($condition))
             {
                 $this->queryStatement .= "UPDATE ".self::$targetTable." SET ";
@@ -154,23 +165,25 @@ namespace Kernel\Database
             }
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function remove() : Pecod
+        public function remove() : self
         {
             $this->queryStatement  = null;
-            $this->executeValue    = null;
+            $this->executeValue    = [];
             $this->queryStatement .= "DELETE FROM ".self::$targetTable;
             return $this;
         }
+
         /**
          * @param  mixed  $column
          * @param  string $operator
          * @param  string $value
-         * @return Pecod
+         * @return self
          */
-        public final function where($column, string $operator = null, string $value = null) : Pecod
+        public function where($column, string $operator = null, string $value = null) : self
         {
             if($this->whereKey != true)
             {
@@ -197,13 +210,14 @@ namespace Kernel\Database
             }
             return $this;
         }
+
         /**
          * @param  mixed  $column
          * @param  string $operator
          * @param  string $value
-         * @return Pecod
+         * @return self
          */
-        public final function orWhere($column, string $operator = null, string $value = null) : Pecod
+        public function orWhere($column, string $operator = null, string $value = null) : self
         {
             if($this->whereKey != true)
             {
@@ -230,12 +244,13 @@ namespace Kernel\Database
             }
             return $this;
         }
+
         /**
          * @param  string $table
          * @param  array $condition
-         * @return Pecod
+         * @return self
          */
-        public final function innerJoin(string $table, array $condition) : Pecod
+        public function innerJoin(string $table, array $condition) : self
         {
             $table = strtolower($table);
             $this->queryStatement .= " INNER JOIN ".$table." ON ";
@@ -244,19 +259,21 @@ namespace Kernel\Database
             $this->queryStatement = rtrim($this->queryStatement, ' ,');
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function innerJoinBySelect() : Pecod
+        public function innerJoinBySelect() : self
         {
             return $this;
         }
+
         /**
          * @param  string $table
          * @param  array $condition
-         * @return Pecod
+         * @return self
          */
-        public final function leftJoin(string $table, array $condition) : Pecod
+        public function leftJoin(string $table, array $condition) : self
         {
             $this->queryStatement .= " LEFT JOIN ".$table." ON ";
             foreach($condition as $item => $value)
@@ -264,19 +281,21 @@ namespace Kernel\Database
             $this->queryStatement = rtrim($this->queryStatement, ' ,');
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function leftJoinBySelect() : Pecod
+        public function leftJoinBySelect() : self
         {
             return $this;
         }
+
         /**
          * @param  string $table
          * @param  array $condition
-         * @return Pecod
+         * @return self
          */
-        public final function rightJoin(string $table, array $condition) : Pecod
+        public function rightJoin(string $table, array $condition) : self
         {
             $this->queryStatement .= " RIGHT JOIN ".$table." ON ";
             foreach($condition as $item => $value)
@@ -284,19 +303,21 @@ namespace Kernel\Database
             $this->queryStatement = rtrim($this->queryStatement, ' ,');
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function rightJoinBySelect() : Pecod
+        public function rightJoinBySelect() : self
         {
             return $this;
         }
+
         /**
          * @param  string $table
          * @param  array $condition
-         * @return Pecod
+         * @return self
          */
-        public final function fullJoin(string $table, array $condition) : Pecod
+        public function fullJoin(string $table, array $condition) : self
         {
             $this->queryStatement .= " FULL JOIN ".$table." ON ";
             foreach($condition as $item => $value)
@@ -304,18 +325,20 @@ namespace Kernel\Database
             $this->queryStatement = rtrim($this->queryStatement, ' ,');
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function fullJoinBySelect() : Pecod
+        public function fullJoinBySelect() : self
         {
             return $this;
         }
+
         /**
          * @param  mixed $column
-         * @return Pecod
+         * @return self
          */
-        public final function groupBy($column) : Pecod
+        public function groupBy($column) : self
         {
             if($this->groupByKey != true)
             {
@@ -339,11 +362,12 @@ namespace Kernel\Database
             }
             return $this;
         }
+
         /**
          * @param  mixed $column
-         * @return Pecod
+         * @return self
          */
-        public final function orderBy($column) : Pecod
+        public function orderBy($column) : self
         {
             if($this->orderByKey != true)
             {
@@ -367,124 +391,175 @@ namespace Kernel\Database
             }
             return $this;
         }
+
         /**
-         * @return Pecod
+         * @return self
          */
-        public final function orderByRand() : Pecod
+        public function orderByRand() : self
         {
             $this->queryStatement .= " ORDER BY RAND() ";
             return $this;
         }
+
         /**
          * @param  string $sortType
-         * @return Pecod
+         * @return self
          */
-        public final function sort(string $sortType) : Pecod
+        public function sort(string $sortType) : self
         {
             if(strtoupper($sortType) == "DESC" || strtoupper($sortType) == "ASC")
                 $this->queryStatement .= " $sortType ";
             return $this;
         }
+
         /**
          * @param  mixed $limitation
-         * @return Pecod
+         * @return self
          */
-        public final function limit($limitation) : Pecod
+        public function limit($limitation) : self
         {
             $this->queryStatement .= " LIMIT ".$limitation;
             return $this;
         }
+
         /**
          * @return int
          */
-        public final function getLastRecordId() : int
+        public function getLastRecordId() : int
         {
             return (int)self::$database->lastInsertId();
         }
+
         /**
-         * @return int
+         * @return int | null
          */
-        public final function getCountRow() : int
+        public function getCountRow() : ?int
         {
             $query = self::$database->prepare($this->queryStatement);
             if($query->execute($this->executeValue))
                 return (int)$query->rowCount();
+
+            return null;
         }
+
         /**
-         * @return int
+         * @return int | null
          */
-        public final function getCountColumn() : int
+        public function getCountColumn() : ?int
         {
             $query = self::$database->prepare($this->queryStatement);
             if($query->execute($this->executeValue))
                 return $query->columnCount();
+
+            return null;
         }
+
         /**
          * @return mixed
          */
-        public final function getColumnTable()
+        public function getColumnTable()
         {
             $query = self::$database->prepare("SELECT * FROM ".self::$targetTable);
             if($query->execute())
             {
                 $column = [];
                 for($i = 0; $i < $query->columnCount(); $i++)
-                    $column[] = $query->getColumnMeta($i)['name'];
+                    $column[] =  $query->getColumnMeta($i)["name"];
                 return new class($column)
                 {
-                    private $column;
+                    /**
+                     * @var array $column
+                     */
+                    private array $column;
+
+                    /**
+                     * @param array $column
+                     */
                     public function __construct(array $column)
                     {
                         $this->column = $column;
                     }
+
+                    /**
+                     * @return array
+                     */
                     public function toArray() : array
                     {
                         return (array)$this->column;
                     }
+
+                    /**
+                     * @return string
+                     */
                     public function toJson() : string
                     {
                         return json_encode($this->column);
                     }
                 };
             }
+
+            return null;
         }
+
         /**
          * @param  integer $countRow
          * @param  string  $controllerRoute
          * @param  integer $numberRoute
          * @return mixed
          */
-        public final function paginate(int $countRow, string $controllerRoute = null, int $numberRoute = null)
+        public function paginate(int $countRow, string $controllerRoute = null, int $numberRoute = null)
         {
             $count   = $this->getCountPage($this->getCountRow(), $countRow);
             $number  = $this->getNumberPageFromUrl($count, $numberRoute);
             $links   = $this->getLinksPage($count, $number, $controllerRoute);
             $records = $this->limit($this->getLimit($number, $countRow))->pull()->toArray();
-            return new class($links, $records)
+
+            return new class($links , $records)
             {
-                private $links;
-                private $records;
+                /**
+                 * @var string $links
+                 */
+                private string $links;
+
+                /**
+                 * @var array $records
+                 */
+                private array  $records;
+
+                /**
+                 * @param string $links
+                 * @param array  $records
+                 */
                 public function __construct(string $links, array $records)
                 {
                     $this->links   = $links;
                     $this->records = $records;
                 }
+
+                /**
+                 * @return array
+                 */
                 public function getRecords() : array
                 {
                     return (array)$this->records;
                 }
+
+                /**
+                 * @return string
+                 */
                 public function getLinks() : string
                 {
                     return (string)$this->links;
                 }
             };
         }
+
         /**
          * @param  string $typefetch
          * @param  string $className
          * @return mixed
          */
-        public final function pull(string $typefetch = Pecod::FETCH_SIMPLE, string $className = null)
+        public function pull(string $typefetch = Pecod::FETCH_SIMPLE, string $className = null)
         {
             $query = self::$database->prepare($this->queryStatement);
             if($query->execute($this->executeValue))
@@ -493,11 +568,12 @@ namespace Kernel\Database
                 else if($typefetch == Pecod::FETCH_OBJECT)
                     return $this->configPullDataByObject($query->fetchObject($className));
         }
+
         /**
          * @param  string $type
          * @return mixed
          */
-        public final function save(string $type = Pecod::RESULT_OFF)
+        public function save(string $type = Pecod::RESULT_OFF)
         {
             $query  = self::$database->prepare($this->queryStatement);
             $result = $query->execute($this->executeValue);
@@ -506,6 +582,7 @@ namespace Kernel\Database
             else if($type == Pecod::RESULT_ON)
                 return $result;
         }
+
         /**
          * @param  array $fetchData
          * @return mixed
@@ -514,8 +591,8 @@ namespace Kernel\Database
         {
             return new class($fetchData)
             {
-                private $fetchData;
-                private $fetchDataFilter;
+                private array $fetchData;
+                private int $fetchDataFilter;
                 public function __construct(array $fetchData)
                 {
                     $this->fetchData = $fetchData;
@@ -537,6 +614,7 @@ namespace Kernel\Database
                 }
             };
         }
+
         /**
          * @param  array $fetchObject
          * @return mixed
@@ -548,7 +626,7 @@ namespace Kernel\Database
                 $fetchDataByObject[] = $row;
             return new class($fetchDataByObject)
             {
-                private $fetchDataByObject;
+                private array $fetchDataByObject;
                 public function __construct(array $fetchDataByObject)
                 {
                     $this->fetchDataByObject = $fetchDataByObject;
@@ -561,6 +639,7 @@ namespace Kernel\Database
                 }
             };
         }
+
         /**
          * @param  integer $allRow
          * @param  integer $countRowPerPage
@@ -571,6 +650,7 @@ namespace Kernel\Database
             $countPages  = ceil($allRow/$countRowPerPage);
             return ($countPages < 1) ? 1 : $countPages;
         }
+
         /**
          * @param  integer $count
          * @param  integer $numberRoute
@@ -579,8 +659,9 @@ namespace Kernel\Database
         private function getNumberPageFromUrl(int $count, int $numberRoute = null) : int
         {
             $number = isset($numberRoute) ? $numberRoute : ( ($this->request->get()->has('Page') == true) ? $this->request->get()->Page : 1);
-            return ($number < 1) ? 1 : ($number > $count) ? $count : $number;
+            return ($number < 1) ? 1 : (($number > $count) ? $count : $number);
         }
+
         /**
          * @param  integer $number
          * @param  integer $count
@@ -590,6 +671,7 @@ namespace Kernel\Database
         {
             return (string)(($number - 1)*$count . " , " . $count);
         }
+
         /**
          * @param  integer $count
          * @param  integer $number

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -13,17 +14,16 @@ namespace Kernel
     use Kernel\Core\Classes\Interfaces\AuthSignIn;
     use Kernel\Core\Classes\Interfaces\AuthSignUp;
 
-    final class Authentication
+    class Authentication
     {
-
-        private static $instance    = null;
-        private static $targetTable = null;
+        private static Authentication $instance;
+        private static string $targetTable;
 
         /**
          * @param  string $table
          * @return void
          */
-        private final function __construct(string $table)
+        private function __construct(string $table)
         {
             self::$targetTable = strtolower($table);
             Session::init();
@@ -31,9 +31,9 @@ namespace Kernel
 
         /**
          * @param  string $table
-         * @return Authentication
+         * @return self
          */
-        public static function target(string $table)
+        public static function target(string $table) : self
         {
             if(!isset(self::$instance))
                 self::$instance = new Authentication($table);
@@ -43,7 +43,7 @@ namespace Kernel
         /**
          * @return self
          */
-        public final function beforeSignIn() : self
+        public function beforeSignIn() : self
         {
             return $this;
         }
@@ -52,7 +52,7 @@ namespace Kernel
          * @param Request $request
          * @param AuthSignIn $authSignIn
          */
-        public final function doSignIn(Request $request, AuthSignIn $authSignIn)
+        public function doSignIn(Request $request, AuthSignIn $authSignIn)
         {
             if(count(Pecod::table(self::$targetTable)->select()->where($request->post()->all)->pull()->toArray()) == 1)
             {
@@ -65,12 +65,19 @@ namespace Kernel
             }
         }
 
-        public final function afterSignIn(AuthSignIn $authSignIn)
+        /**
+         * @param  AuthSignIn $authSignIn
+         * @return self
+         */
+        public function afterSignIn(AuthSignIn $authSignIn) : self
         {
             return $this;
         }
 
-        public final function beforeSignUp()
+        /**
+         * @return self
+         */
+        public function beforeSignUp() : self
         {
             return $this;
         }
@@ -78,9 +85,9 @@ namespace Kernel
         /**
          * @param  Request $request
          * @param  AuthSignUp $authSignUp
-         * @return Authentication
+         * @return self
          */
-        public final function doSignUp(Request $request, AuthSignUp $authSignUp)
+        public function doSignUp(Request $request, AuthSignUp $authSignUp) : self
         {
             $request = $request->post()->all;
             Pecod::table(self::$targetTable, function (Pecod $pecod) use ($request , $authSignUp)
@@ -99,7 +106,11 @@ namespace Kernel
             return $this;
         }
 
-        public final function afterSignUp(AuthSignUp $authSignUp) : self
+        /**
+         * @param  AuthSignUp $authSignUp
+         * @return self
+         */
+        public function afterSignUp(AuthSignUp $authSignUp) : self
         {
             return $this;
         }

@@ -1,6 +1,6 @@
-/* IRAN Sans-serif fonts are considered a proprietary software. To gain information about the laws regarding the use of these fonts, please visit www.fontiran.com --------------------------------------------------------------------- This set of fonts are used in this project under the license: (68TDE9) --------------------------------------------------------------------- */
+/* IRAN Sans-serif fonts are considered a proprietary software. To gain information about the laws regarding the use of these fonts, please visit www.fontiran.com --------------------------------------------------------------------- This set of fonts are used in this project under the license: () --------------------------------------------------------------------- */
 
-@font-face
+/*@font-face
 {
     src: url("../../Fonts/English/Roboto-Regular.ttf");
     font-family: Roboto-Regular;
@@ -70,7 +70,7 @@
     url('../../Fonts/Persian/woff2/IRANSansWeb(FaNum).woff2') format('woff2'),
     url('../../Fonts/Persian/woff/IRANSansWeb(FaNum).woff') format('woff'),
     url('../../Fonts/Persian/ttf/IRANSansWeb(FaNum).ttf') format('truetype');
-}
+}*/
 *
 {
     padding: 0px;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -13,13 +14,13 @@ namespace Kernel\Http\Route
     use Kernel\Http\Routes\PatchPath;
     use Kernel\Http\Routes\DeletePath;
     
-    final class RouterRunner
+    class RouterRunner
     {
         /**
          * @param  string $dirname
          * @return void
          */
-        public static function run(string $dirname)
+        public static function run(string $dirname) : void
         {
             HttpRequest::start($dirname);
             GetPath::run();

@@ -1,4 +1,5 @@
 <?php
+use Kernel\MVC\View;
 
 if(!function_exists('getViewException'))
 {
@@ -23,10 +24,10 @@ if(!function_exists('view'))
     /**
      * @author  Hasan Karami
      * @version 1
-     * @return  \Kernel\MVC\View
+     * @return  View
      */
-    function view() : \Kernel\MVC\View
+    function view() : View
     {
-        return new \Kernel\MVC\View();
+        return new View();
     }
 }

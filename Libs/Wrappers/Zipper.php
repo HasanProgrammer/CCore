@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -6,22 +7,34 @@
  */
 namespace Libs\Wrappers
 {
+
+    use ZipArchive;
+
     final class Zipper
     {
-        private $zip;
-        private $files = [];
+        /**
+         * @var ZipArchive $zip
+         */
+        private ZipArchive $zip;
+
+        /**
+         * @var array $files
+         */
+        private array $files = [];
+
         /**
          * @return void
          */
         public final function __construct() 
         {
-            $this->zip = new \ZipArchive();
+            $this->zip = new ZipArchive();
         }
+
         /**
          * @param  string | integer | array $input
          * @return Zipper
          */
-        public final function add($input) 
+        public final function add($input) : Zipper
         {
             if(is_array($input))
                 $this->files = array_merge($this->files, $input);
@@ -29,11 +42,12 @@ namespace Libs\Wrappers
                 $this->files[] = $input;
             return $this;
         }
+
         /**
          * @param  string | integer | array $location
          * @return void
          */
-        public final function store($location) 
+        public final function store($location) : void
         {
             if(count($this->files) && isset($location))
             {

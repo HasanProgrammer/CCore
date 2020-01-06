@@ -9,6 +9,7 @@ namespace Kernel\Http\WebServices\BankPort
 {
 
     use stdClass;
+    use SoapFault;
     use SoapClient;
 
     final class Mellat
@@ -16,27 +17,27 @@ namespace Kernel\Http\WebServices\BankPort
         /**
          * @var integer
          */
-        private $terminal_id;
+        private int $terminal_id;
 
         /**
          * @var string
          */
-        private $username;
+        private string $username;
 
         /**
          * @var string
          */
-        private $password;
+        private string $password;
 
         /**
          * @var integer
          */
-        private $amount;
+        private int $amount;
 
         /**
          * @var integer
          */
-        private $order_id;
+        private int $order_id;
 
         /**
          * @param  integer $amount
@@ -57,6 +58,8 @@ namespace Kernel\Http\WebServices\BankPort
          * @param  callable $callBackError
          * @param  callable $callBackSuccess
          * @return void
+         *
+         * @throws SoapFault
          */
         public function payment(string $data = null, callable $callBackError, callable $callBackSuccess) : void
         {
@@ -96,8 +99,9 @@ namespace Kernel\Http\WebServices\BankPort
         }
 
         /**
-         * @param  callable $callBackSuccess
+         * @param callable $callBackSuccess
          * @return void
+         * @throws SoapFault
          */
         public function verify(callable $callBackSuccess) : void
         {

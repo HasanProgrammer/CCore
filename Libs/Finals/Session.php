@@ -15,7 +15,7 @@ namespace Libs\Finals
         /**
          * @return void
          */
-        public static final function init() 
+        public static function init()
         {
             if(session_status() == PHP_SESSION_NONE) session_start();
         }
@@ -25,7 +25,7 @@ namespace Libs\Finals
          * @param  string | integer $value
          * @return boolean
          */
-        public static final function set($key, $value = null) : bool 
+        public static function set($key, $value = null) : bool
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Libs\Finals
          * @param  string | array $key
          * @return boolean
          */
-        public static final function checkExE($key) : bool 
+        public static function checkExE($key) : bool
         {
             if(is_array($key))
             {
@@ -75,7 +75,7 @@ namespace Libs\Finals
          * @param  string $key
          * @return string | integer | array
          */
-        public static final function get(string $key) 
+        public static function get(string $key)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Libs\Finals
          * @param  string | array $key
          * @return boolean
          */
-        public static final function delete($key) : bool 
+        public static function delete($key) : bool
         {
             try
             {

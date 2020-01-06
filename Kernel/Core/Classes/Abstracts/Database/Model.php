@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @author  HasanProgrammer
+ * @author  Hasan Karami
  * @version 1
  * @package CCore
  */

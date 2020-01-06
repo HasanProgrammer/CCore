@@ -8,7 +8,7 @@ if(!function_exists('redirect'))
      * @param   string $path
      * @return  void
      */
-    function redirect(string $path)
+    function redirect(string $path) : void
     {
         header("Location: ".root().$path);
         exit();
@@ -24,7 +24,7 @@ if(!function_exists('redirectOnTime'))
      * @param   integer $time
      * @return  void
      */
-    function redirectOnTime(string $path, int $time)
+    function redirectOnTime(string $path, int $time) : void
     {
         $path = str_replace('.', '/', $path);
         header("Refresh:".$time.";URL=".root().$path);
@@ -40,7 +40,7 @@ if(!function_exists('redirectToOtherUrl'))
      * @param   string $path
      * @return  void
      */
-    function redirectToOtherUrl(string $path)
+    function redirectToOtherUrl(string $path) : void
     {
         header("Location: ".$path);
     }
@@ -55,7 +55,7 @@ if(!function_exists('redirectOnTimeToOtherUrl'))
      * @param   integer $time
      * @return  void
      */
-    function redirectOnTimeToOtherUrl(string $path, int $time)
+    function redirectOnTimeToOtherUrl(string $path, int $time) : void
     {
         header("Refresh:".$time.";URL=".$path);
     }
