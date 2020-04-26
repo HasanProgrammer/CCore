@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -16,35 +17,37 @@ namespace Kernel\Http\Route
     use Kernel\Exceptions\RouteException;
     use Kernel\Core\Classes\Interfaces\Http\Route as IRoute;
 
-    final class Route
+    class Route
     {
-        private $area;
-        private $route;
-        private $method;
+        private string $area;
+        private string $route;
+        private string $method;
         private $callable;
-        private $throttle;
-        private $parameter;
-        private $controller;
-        private $typeRequest;
-        private $parameterRegex;
-        private $middlewareRoute;
+        private array $throttle;
+        private array $parameter;
+        private string $controller;
+        private string $typeRequest;
+        private array $parameterRegex;
+        private array $middlewareRoute;
+
         /**
          * @param  string $route
          * @param  string | callable callable
          * @param  string $typeRequest
          * @return void
          */
-        public final function __construct(string $route, $callable = null, string $typeRequest)
+        public function __construct(string $route, $callable = null, string $typeRequest)
         {
             $this->route       = trim($route, '/');
             $this->callable    = $callable;
             $this->typeRequest = $typeRequest;
         }
+
         /**
          * @param  $stringURL
          * @return boolean
          */
-        public final function match($stringURL) : bool
+        public function match($stringURL) : bool
         {
             $BaseRoute = preg_replace_callback("#\[([\w]+)\]#", [$this , 'filterParameter'], $this->route);
             if(!preg_match("#^$BaseRoute$#i", $stringURL, $Matched))
@@ -55,58 +58,64 @@ namespace Kernel\Http\Route
                 array_push($this->parameter, array_values($Matched)[$i]);
             return true;
         }
+
         /**
          * @param  string $controller
-         * @return Route
+         * @return self
          */
-        public final function controller(string $controller) : self
+        public function controller(string $controller) : self
         {
             $this->controller = $controller."Controller";
             return $this;
         }
+
         /**
          * @param  string $method
-         * @return Route
+         * @return self
          */
-        public final function action(string $method) : self
+        public function action(string $method) : self
         {
             $this->method = $method;
             return $this;
         }
+
         /**
          * @param  string $parameter
          * @param  string $regex
-         * @return Route
+         * @return self
          */
-        public final function filter(string $parameter, string $regex) : self
+        public function filter(string $parameter, string $regex) : self
         {
             $this->parameterRegex[$parameter] = str_replace('(', '', str_replace(')', '', $regex));
             return $this;
         }
+
         /**
          * @param  string $area
-         * @return Route
+         * @return self
          */
-        public final function area(string $area) : self
+        public function area(string $area) : self
         {
             $this->area = $area;
             return $this;
         }
+
         /**
          * @param  string $middleware
-         * @return Route
+         * @return self
          */
-        public final function middleware(string $middleware) : self
+        public function middleware(string $middleware) : self
         {
             $this->middlewareRoute[$this->route][] = $middleware;
             return $this;
         }
+
         /**
          * @param  string   $order
          * @param  callable $callBack
-         * @return Route
+         * @return self
          */
-        public final function fireWall(string $order, callable $callBack = null) : self
+        public function fireWall(string $order, callable $callBack = null) : self
         {
             try
             {
@@ -147,17 +156,19 @@ namespace Kernel\Http\Route
                 d( $routeException->getMessage() );
             }
         }
+
         /**
          * @return boolean
          */
-        public final function hasFireWall() : bool
+        public function hasFireWall() : bool
         {
             return isset($this->throttle) ? true : false;
         }
+
         /**
-         * @return Route {
+         * @return self
          */
-        public final function callFireWall()
+        public function callFireWall() : self
         {
             Session::init();
             if(!Session::checkExE(['Time'.$this->route , 'Max'.$this->route]))
@@ -189,17 +200,19 @@ namespace Kernel\Http\Route
             }
             return $this;
         }
+
         /**
          * @return boolean
          */
-        public final function hasMiddleware() : bool
+        public function hasMiddleware() : bool
         {
             return isset($this->middlewareRoute[$this->route]) ? true : false;
         }
+
         /**
-         * @return Route
+         * @return self
          */
-        public final function callMiddleware() : Route
+        public function callMiddleware() : self
         {
             $gate = new Middleware();
             if(isset($this->middlewareRoute[$this->route]))
@@ -209,17 +222,19 @@ namespace Kernel\Http\Route
             }
             return $this;
         }
+
         /**
          * @return boolean
          */
-        public final function hasArea() : bool
+        public function hasArea() : bool
         {
             return isset($this->area) ? true : false;
         }
+
         /**
          * @return void
          */
-        public final function call()
+        public function call() : void
         {
             try
             {
@@ -294,11 +309,12 @@ namespace Kernel\Http\Route
                 var_dump( $exception->getMessage() );
             }
         }
+
         /**
          * @param  array $matched
          * @return string
          */
-        private final function filterParameter(array $matched) : string
+        private function filterParameter(array $matched) : string
         {
             if(isset($this->parameterRegex[$matched[1]]))
                 return '(' . $this->parameterRegex[$matched[1]] . ')';

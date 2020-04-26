@@ -19,4 +19,20 @@ return
         'CallbackURL'  => getBankPortResponseUrl()
     ]
 
+    ,
+
+    "Mellat" =>
+    [
+        /* Personal */
+        "TerminalID"  => "",
+        "Username"    => "",
+        "Password"    => "",
+
+        /* Global */
+        "RemoteURL-API" => "",
+        "CallBackURL"   => "",
+        "NameSpace"     => "",
+        "BankPortURL"   => ""
+    ]
+
 ];

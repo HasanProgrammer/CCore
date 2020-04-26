@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -6,18 +7,24 @@
  */
 namespace Kernel\MVC
 {
+
+    use Kernel\Http\Middleware;
+
     class Controller
     {
-
-        protected $middleware;
+        /**
+         * @var Middleware $middleware
+         */
+        protected Middleware $middleware;
 
         /**
          * @return void
          */
-        protected function __construct()
+        public function __construct()
         {
             \Libs\Finals\Session::init();
             $this->middleware = new \Kernel\Http\Middleware();
+            $this->middleware->handle("Boot");
         }
     }
 }

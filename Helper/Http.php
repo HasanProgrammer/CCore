@@ -1,6 +1,7 @@
 <?php
 
 use Libs\Finals\Session;
+use Kernel\Http\Request;
 
 if(!function_exists('getHttpField'))
 {
@@ -68,10 +69,10 @@ if(!function_exists('request'))
     /**
      * @author  Hasan Karami
      * @version 1
-     * @return  \Kernel\Http\Request
+     * @return  Request
      */
-    function request() : \Kernel\Http\Request
+    function request() : Request
     {
-        return new \Kernel\Http\Request();
+        return new Request();
     }
 }

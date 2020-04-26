@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -7,12 +8,17 @@
 namespace Kernel\Http
 {
 
+    use ReflectionClass;
+    use ReflectionException;
     use Kernel\Exceptions\MiddlewareException;
 
     final class Middleware
     {
 
-        private $providers;
+        /**
+         * @var array $providers
+         */
+        private array $providers;
 
         /**
          * @return void
@@ -21,11 +27,12 @@ namespace Kernel\Http
         {
             $this->providers = config('Provider')['Middleware'];
         }
+
         /**
          * @param  string $middleware
-         * @return Middleware
+         * @return self
          */
-        public final function handle(string $middleware) : Middleware
+        public final function handle(string $middleware) : self
         {
             try
             {
@@ -33,7 +40,7 @@ namespace Kernel\Http
                 {
                     if(class_exists(isInAssoc($this->providers, $middleware, true)))
                     {
-                        $reflection = new \ReflectionClass(isInAssoc($this->providers, $middleware, true));
+                        $reflection = new ReflectionClass(isInAssoc($this->providers, $middleware, true));
                         if($reflection->hasMethod('run'))
                         {
                             if($reflection->getMethod('run')->getNumberOfParameters() == 1)
@@ -49,10 +56,12 @@ namespace Kernel\Http
             {
                 d( $middlewareException->getMessage() );
             }
-            catch (\ReflectionException $e)
+            catch (ReflectionException $e)
             {
                 d( $e->getMessage() );
             }
+
+            return $this;
         }
     }
 }

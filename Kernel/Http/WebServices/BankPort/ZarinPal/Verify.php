@@ -4,12 +4,12 @@
  * @version 1
  * @package CCore
  */
-namespace Kernel\Http\BankPort
+namespace Kernel\Http\WebServices\BankPort\ZarinPal
 {
 
     use Kernel\Core\Classes\Interfaces\Http\BankPort\Payment as BasePayment;
 
-    final class Payment
+    final class Verify
     {
         private $refId;
         private $status;

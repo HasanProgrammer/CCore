@@ -1,4 +1,12 @@
 #!/usr/bin/env php
 <?php
 include_once 'Vendor/autoload.php';
-(new \Kernel\Console())->run();
+
+try
+{
+    (new \Kernel\Console())->run();
+}
+catch (Exception $e)
+{
+    d($e->getMessage());
+}

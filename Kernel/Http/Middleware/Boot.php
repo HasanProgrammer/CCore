@@ -1,24 +1,31 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
  * @package CCore
  */
-namespace Kernel\Http\Gate
+namespace Kernel\Http\Middleware
 {
 
     use Kernel\Http\Request;
+    use Libs\Finals\Session;
     use Kernel\Database\Pecod;
 
-    final class Boot
+    class Boot
     {
         /**
          * @param  Request $request
          * @return void
          */
-        public final function run(Request $request)
+        public function run(Request $request) : void
         {
-            //redirect('Repair');
+            //Set Session
+            if( !Session::checkExE("csrf") ) Session::set("csrf" , hash("sha256" , time()));
+
+            //Update Session
+            Session::delete("csrf");
+            Session::set("csrf" , hash("sha256" , time()));
         }
     }
 }

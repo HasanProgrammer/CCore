@@ -13,7 +13,7 @@ return
     [
         'Driver'   => "mysql"     ,
         'Host'     => "localhost" ,
-        'Database' => "test"      ,
+        'Database' => "ccore"     ,
         'Username' => "root"      ,
         'Password' => ""
     ]

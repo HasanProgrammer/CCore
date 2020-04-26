@@ -4,18 +4,21 @@
  * @version 1
  * @package CCore
  */
-namespace Kernel\Http\BankPort
+namespace Kernel\Http\WebServices\BankPort\ZarinPal
 {
 
+    use SoapFault;
     use Kernel\Core\Classes\Interfaces\Http\BankPort\Request as BaseRequest;
 
-    final class Request
+    final class Payment
     {
         private $status;
         private $authority;
         /**
          * @param  integer $amount
          * @return void
+         *
+         * @throws SoapFault
          */
         public final function __construct(int $amount)
         {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -10,10 +11,10 @@ namespace Libs\Finals
     {
         private const CAPTCHA_STR = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
 
-        private $imageWidth;
-        private $imageHeight;
-        private $imageFontSize;
-        private $stringImageCaptcha;
+        private int $imageWidth;
+        private int $imageHeight;
+        private int $imageFontSize;
+        private string $stringImageCaptcha;
 
         /**
          * @param  integer $length
@@ -25,11 +26,12 @@ namespace Libs\Finals
             Session::init();
             Session::set('CAPTCHA', $this->stringImageCaptcha);
         }
+
         /**
          * @param  integer $size
-         * @return Captcha
+         * @return self
          */
-        public final function setImageFont(int $size) : Captcha
+        public final function setImageFont(int $size) : self
         {
             $this->imageFontSize = $size;
             return $this;
@@ -37,26 +39,28 @@ namespace Libs\Finals
 
         /**
          * @param  integer $width
-         * @return Captcha
+         * @return self
          */
-        public final function setImageWidth(int $width) : Captcha
+        public final function setImageWidth(int $width) : self
         {
             $this->imageWidth = $width;
             return $this;
         }
+
         /**
          * @param  integer $height
-         * @return Captcha
+         * @return self
          */
-        public final function setImageHeight(int $height) : Captcha
+        public final function setImageHeight(int $height) : self
         {
             $this->imageHeight = $height;
             return $this;
         }
+
         /**
          * @return void
          */
-        public final function create()
+        public final function create() : void
         {
             header('Content-Type: image/jpeg');
             $image          = imagecreate($this->imageWidth, $this->imageHeight);

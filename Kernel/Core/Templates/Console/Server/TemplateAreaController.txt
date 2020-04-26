@@ -1,28 +1,30 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
  * @package CCore
  */
-namespace MVC\Controllers
+namespace Areas\{area}\Controllers
 {
 
     use Kernel\Http\Request;
 
-    final class TemplateController extends \Kernel\Http\Controller
+    class {controller}Controller extends \Kernel\Http\Controller
     {
         /**
          * @return void
          */
-        public final function __construct()
+        public function __construct()
         {
-            parent::__construct(); $this->middleware->handle('Boot');
+            parent::__construct();
         }
+
         /**
          * @param  Request $request
          * @return void
          */
-        public final function Index(Request $request)
+        public function Index(Request $request)
         {
 
         }

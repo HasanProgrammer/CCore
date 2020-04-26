@@ -11,9 +11,9 @@ return
 
     'Middleware' =>
     [
-        'Auth' => \Kernel\Http\Gate\Auth::class,
-        'Boot' => \Kernel\Http\Gate\Boot::class,
-        'CSRF' => \Kernel\Http\Gate\CrossSiteRequestForgery::class
+        'Auth' => \Kernel\Http\Middleware\Auth::class,
+        'Boot' => \Kernel\Http\Middleware\Boot::class,
+        'CSRF' => \Kernel\Http\Middleware\CrossSiteRequestForgery::class
     ]
 
     ,
@@ -30,7 +30,9 @@ return
         [
 
         ]
+
         ,
+
         "StyleSheet" =>
         [
 

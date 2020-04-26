@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @author  HasanProgrammer
+ * @author  Hasan Karami
  * @version 1
  * @package CCore
  */
@@ -14,11 +15,11 @@ namespace Kernel\Core\Classes\Interfaces\Http\BankPort
          * @param  integer $status
          * @return void
          */
-        public function onSuccessRespons(int $refId, int $status);
+        public function onSuccessRespons(int $refId, int $status) : void;
 
         /**
          * @return void
          */
-        public function onErrorRespons();
+        public function onErrorRespons() : void;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -10,14 +11,29 @@ namespace Kernel\MVC
     use ReflectionException;
     use Kernel\Exceptions\ModelException;
 
-    final class Model
+    class Model
     {
+        /**
+         * @var string
+         */
+        private string $area;
+
+        /**
+         * @param  string $area
+         * @return self
+         */
+        public function area(string $area) : self
+        {
+            $this->area = $area;
+            return $this;
+        }
+
         /**
          * @param  string $logic
          * @param  array  $dataModels
          * @return mixed
          */
-        public final function run(string $logic, array $dataModels = [])
+        public function run(string $logic, array $dataModels = [])
         {
             try
             {
@@ -41,6 +57,8 @@ namespace Kernel\MVC
             {
                 d( $exception->getMessage() );
             }
+
+            return false;
         }
     }
 }

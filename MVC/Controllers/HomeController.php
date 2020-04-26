@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author  Hasan Karami
  * @version 1
@@ -7,26 +8,27 @@
 namespace MVC\Controllers
 {
 
+    use Kernel\Cash;
+    use Kernel\Http\WebServices\WebService;
+    use Libs\Finals\Session;
     use Kernel\Http\Request;
     use Kernel\Http\Controller;
 
-    /**
-     * @Area()
-     */
-    final class HomeController extends Controller
+    class HomeController extends Controller
     {
         /**
          * @return void
          */
-        public final function __construct()
+        public function __construct()
         {
             parent::__construct();
         }
+
         /**
          * @param  Request $request
          * @return void
          */
-        public final function Index(Request $request)
+        public function Index(Request $request) : void
         {
             $this->view->render('HomeController.Index');
         }
